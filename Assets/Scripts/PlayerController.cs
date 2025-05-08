@@ -5,13 +5,22 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Movement Settings")]
     [SerializeField]private float moveSpeed = 5f;
     [SerializeField]private float jumpForce = 10f;
-    [SerializeField]private bool isGrounded;
     
-    [SerializeField]private Transform groundCheck;
-    [SerializeField]private LayerMask groundLayer;
+    [Header("Advanced Jumping")]
+    [SerializeField] private float coyoteTime = 0.15f;    
+    [SerializeField] private float jumpBufferTime = 0.1f;
+    private float coyoteTimeCounter;
+    private float jumpBufferCounter;
     
+    [Header("Ground Check")]
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask groundLayer;
+    private bool isGrounded;
+    
+    // Components
     private Rigidbody2D rb;
     private Animator anim;
 
@@ -23,22 +32,56 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        isGrounded = IsGrounded();
+        UpdateGroundedStatus();
         
-        Move();
-        Jump();
+        UpdateCoyoteTime();
+        UpdateJumpBuffer();
         
-        anim.SetBool("IsGround", isGrounded);
+        HandleMovement();
+        HandleJump();
+        UpdateAnimator();
+    }
+    
+    private void UpdateGroundedStatus()
+    {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
     }
 
-    private void Move()
+    private void HandleMovement()
     {
         if(!IsGrounded()) return;
         
         float inputX = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(inputX * moveSpeed, rb.velocity.y);
+        Flip(inputX);
+        
+        anim.SetBool("Move", inputX != 0);
+    }
 
-        switch (inputX)
+    private void HandleJump()
+    {
+        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            jumpBufferCounter = 0f;
+            coyoteTimeCounter = 0f;
+        }
+    }
+    
+    private void UpdateAnimator()
+    {
+        anim.SetBool("IsGround", isGrounded);
+        anim.SetFloat("VerticalSpeed", rb.velocity.y);
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
+    }
+
+    private void Flip(float input)
+    {
+        switch (input)
         {
             //Flip player
             case > 0:
@@ -48,20 +91,23 @@ public class PlayerController : MonoBehaviour
                 transform.localScale = new Vector3(-1, 1, 1); // Facing left
                 break;
         }
-        
-        anim.SetBool("Move", inputX != 0);
-    }
-
-    private void Jump()
-    {
-        if (Input.GetButtonDown("Jump") || (Input.GetAxis("Vertical") > 0) && IsGrounded())
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        }
     }
     
-    bool IsGrounded()
+    private void UpdateCoyoteTime()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
+        coyoteTimeCounter = isGrounded ? coyoteTime : coyoteTimeCounter - Time.deltaTime;
+    }
+
+    private void UpdateJumpBuffer()
+    {
+        if (Input.GetButtonDown("Jump") || Input.GetAxis("Vertical") > 0f)
+        {
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+            
     }
 }

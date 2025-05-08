@@ -6,6 +6,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]private float moveSpeed = 5f;
     [SerializeField]private float jumpForce = 10f;
     
+    [Header("Jump Control")]
+    [SerializeField] private float jumpCooldown = 0.5f;
+    private bool IsJumpReady => Time.time >= lastJumpTime + jumpCooldown;
+    private float lastJumpTime = -Mathf.Infinity;
+    
+    
     [Header("Advanced Jumping")]
     [SerializeField] private float coyoteTime = 0.15f;    
     [SerializeField] private float jumpBufferTime = 0.1f;
@@ -57,11 +63,12 @@ public class PlayerController : MonoBehaviour
 
     private void HandleJump()
     {
-        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
+        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f && IsJumpReady)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             jumpBufferCounter = 0f;
             coyoteTimeCounter = 0f;
+            lastJumpTime = Time.time;
         }
     }
     

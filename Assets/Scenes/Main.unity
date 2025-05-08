@@ -2188,6 +2188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpForce: 5
+  jumpCooldown: 1.25
   coyoteTime: 0.2
   jumpBufferTime: 0.2
   groundCheck: {fileID: 419793990}

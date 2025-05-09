@@ -7,6 +7,7 @@ public class ItemUser : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private QuickBar quickBar;
+    [SerializeField] private ArcanePower arcanePower;
     public GameObject worldItemPickupPrefab;
     [SerializeField] private GameObject wandProjectilePrefab;
     [SerializeField] private float fireCooldown = 0.5f;
@@ -20,13 +21,11 @@ public class ItemUser : MonoBehaviour
     
     private void Update()
     {
-        // Example usage trigger (Space or Left Click)
         if (Input.GetButtonDown("Jump"))
         {
             UseSelectedItem();
         }
-
-        // Drop selected item (Q Key)
+        
         if (Input.GetKeyDown(KeyCode.Q))
         {
             DropSelectedItem();
@@ -92,18 +91,30 @@ public class ItemUser : MonoBehaviour
         if (Time.time - lastFireTime < fireCooldown)
             return; 
         
+        if (arcanePower != null && !arcanePower.CanUse())
+        {
+            Debug.Log("Not enough Arcane Power!");
+            return;
+        }
+        
         lastFireTime = Time.time;
+        arcanePower.UseAP();
         
         Vector3 spawnPosition = transform.position;
-        float facingDirection = Mathf.Sign(transform.localScale.x); // +1 or -1
+        float facingDirection = Mathf.Sign(transform.localScale.x);
         Vector2 shootDirection = Vector2.right * facingDirection;
         
-        var projectile = Instantiate(wandProjectilePrefab, spawnPosition, Quaternion.identity);
-        
-        var projectileComponent = projectile.GetComponent<WandProjectile>();
-        if (projectileComponent != null)
+        GameObject projectileObj = ObjectPoolManager.Instance.Get("Projectile");
+        if (projectileObj != null)
         {
-            projectileComponent.SetDirection(shootDirection);
+            projectileObj.transform.position = spawnPosition;
+            projectileObj.transform.rotation = Quaternion.identity;
+
+            WandProjectile projectile = projectileObj.GetComponent<WandProjectile>();
+            if (projectile != null)
+            {
+                projectile.SetDirection(shootDirection);
+            }
         }
     }
 }

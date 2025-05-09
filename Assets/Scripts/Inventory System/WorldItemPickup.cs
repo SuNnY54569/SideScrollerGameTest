@@ -55,7 +55,23 @@ public class WorldItemPickup : MonoBehaviour
         
         if (playerInventory != null)
         {
-            bool success = playerInventory.AddItem(item, quantity);
+            bool success = false;
+            
+            if (item.itemType == InventoryItem.ItemType.Tool)
+            {
+                QuickBar quickBar = playerInventory.GetComponent<QuickBar>();
+
+                if (quickBar != null && quickBar.TryAddItem(item, quantity))
+                {
+                    success = true;
+                }
+            }
+            
+            if (!success)
+            {
+                success = playerInventory.AddItem(item, quantity);
+            }
+
             if (success)
             {
                 isCollected = true;

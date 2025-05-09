@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 6424638694823071809}
   - component: {fileID: 5376657542477232767}
   - component: {fileID: 7233396364444113374}
+  - component: {fileID: 6527035818228427827}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -268,8 +269,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   quickBar: {fileID: 5376657542477232767}
+  arcanePower: {fileID: 6527035818228427827}
   worldItemPickupPrefab: {fileID: 926622700075438583, guid: 225340c95a59af748ae304d255d03341, type: 3}
   wandProjectilePrefab: {fileID: 1222908208336480367, guid: 181be1eb524807e448716fdc4ef5c6dc, type: 3}
-  jumpDistance: 0.5
+  fireCooldown: 0.5
+  minDropDistance: 0.5
+  maxDropDistance: 1.5
   jumpHeight: 1
   jumpDuration: 0.5
+--- !u!114 &6527035818228427827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731758637334312856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 452e409b235114e45b219152db7a09b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxAP: 100
+  apPerShot: 10
+  OnAPChanged:
+    m_PersistentCalls:
+      m_Calls: []

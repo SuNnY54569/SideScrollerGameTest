@@ -50,4 +50,17 @@ public class QuickBar : MonoBehaviour
             SelectedIndex = index;
         }
     }
+    
+    public bool TryAddItem(InventoryItem item, int amount)
+    {
+        for (int i = 0; i < quickSlots.Count; i++)
+        {
+            if (quickSlots[i].IsEmpty)
+            {
+                quickSlots[i].AddItem(item, amount);
+                return true;
+            }
+        }
+        return false; // No available slot
+    }
 }

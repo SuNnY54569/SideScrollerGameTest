@@ -165,5 +165,33 @@ public class InventorySlotUI : MonoBehaviour,
 
         slot.Clear();
     }
+    
+    public static bool HasActiveDrag()
+    {
+        return draggedItem != null;
+    }
+    
+    public static void DeleteDraggedItem()
+    {
+        if (sourceInventory != null)
+        {
+            sourceInventory.slots[sourceSlotIndex].Clear();
+        }
+        else if (sourceQuickBar != null)
+        {
+            sourceQuickBar.quickSlots[sourceSlotIndex].Clear();
+        }
+
+        ClearDragData();
+    }
+    
+    private static void ClearDragData()
+    {
+        draggedItem = null;
+        draggedAmount = 0;
+        sourceInventory = null;
+        sourceQuickBar = null;
+        sourceSlotIndex = -1;
+    }
 
 }

@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] private int slotCount = 8;
-    public List<InventorySlot> slots = new List<InventorySlot>();
+    [SerializeField] private int totalSlotCount = 20;
+    
+    public List<InventorySlot> slots = new();
 
     private void Awake()
     {
-        for (int i = 0; i < slotCount; i++)
+        for (int i = 0; i < totalSlotCount; i++)
         {
             slots.Add(new InventorySlot());
         }

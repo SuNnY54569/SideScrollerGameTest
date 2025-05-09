@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Rock
   icon: {fileID: -175167603, guid: 2727302dd8f0d7046a796a84d1a20cc8, type: 3}
-  maxStack: 10
+  maxStack: 2
   itemType: 0
   isStackable: 1

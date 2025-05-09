@@ -18,6 +18,7 @@ public class QuickBarUI : MonoBehaviour
     
     private void Update()
     {
+        HandleScrollInput();
         UpdateUI();
     }
 
@@ -50,5 +51,31 @@ public class QuickBarUI : MonoBehaviour
                 quickBar.SetSelectedIndex(i);
             }
         }
+    }
+    
+    private void HandleScrollInput()
+    {
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+
+        if (scroll > 0f)
+        {
+            SelectPreviousSlot();
+        }
+        else if (scroll < 0f)
+        {
+            SelectNextSlot();
+        }
+    }
+    
+    private void SelectNextSlot()
+    {
+        int nextIndex = (quickBar.SelectedIndex + 1) % quickBar.quickSlots.Count;
+        quickBar.SetSelectedIndex(nextIndex);
+    }
+
+    private void SelectPreviousSlot()
+    {
+        int prevIndex = (quickBar.SelectedIndex - 1 + quickBar.quickSlots.Count) % quickBar.quickSlots.Count;
+        quickBar.SetSelectedIndex(prevIndex);
     }
 }

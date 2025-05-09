@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateJumpBuffer()
     {
-        if (Input.GetButtonDown("Jump") || Input.GetAxis("Vertical") > 0f)
+        if (Input.GetAxis("Vertical") > 0f)
         {
             jumpBufferCounter = jumpBufferTime;
         }

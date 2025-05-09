@@ -9,10 +9,12 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private QuickBar quickBar;
     [SerializeField] private GameObject slotPrefab;
     [SerializeField] private GameObject slotContainer;
+    [SerializeField] private GameObject backgroundPanel;
     
     private List<InventorySlotUI> slotUIs = new();
     private bool isOpened;
     private CanvasGroup canvasGroup;
+    private CanvasGroup bgCanvasGroup;
     private Tween containerTween;
     private void Start()
     {
@@ -24,7 +26,10 @@ public class InventoryUI : MonoBehaviour
     {
         UpdateUI();
         
-        
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            OpenCloseInventory();
+        }
     }
 
     private void CreateSlots()
@@ -56,28 +61,31 @@ public class InventoryUI : MonoBehaviour
 
             if (canvasGroup == null)
                 canvasGroup = slotContainer.GetComponent<CanvasGroup>();
+            if (bgCanvasGroup == null && backgroundPanel != null)
+                bgCanvasGroup = backgroundPanel.GetComponent<CanvasGroup>();
 
             slotContainer.transform.localScale = Vector3.zero;
             slotContainer.SetActive(true);
+            backgroundPanel?.SetActive(true);
         
             containerTween?.Kill();
-        
-            containerTween = slotContainer?.transform.DOScale(1f, 0.25f).SetEase(Ease.OutBack);
-            if (canvasGroup != null)
-                canvasGroup.DOFade(1f, 0.25f);
+            containerTween = slotContainer.transform.DOScale(1f, 0.25f).SetEase(Ease.OutBack);
+
+            canvasGroup?.DOFade(1f, 0.25f);
+            bgCanvasGroup?.DOFade(1f, 0.25f);
         }
         else
         {
             if (slotContainer == null) return;
 
             containerTween?.Kill();
-        
-            containerTween = slotContainer?.transform.DOScale(0f, 0.2f)
+            containerTween = slotContainer.transform.DOScale(0f, 0.2f)
                 .SetEase(Ease.InBack)
                 .OnComplete(() => slotContainer.SetActive(false));
 
-            if (canvasGroup != null)
-                canvasGroup.DOFade(0f, 0.2f);
+            canvasGroup?.DOFade(0f, 0.2f);
+            bgCanvasGroup?.DOFade(0f, 0.2f)
+                .OnComplete(() => backgroundPanel?.SetActive(false));
         }
     }
 }

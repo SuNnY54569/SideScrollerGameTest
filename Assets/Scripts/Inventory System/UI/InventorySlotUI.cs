@@ -6,11 +6,15 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InventorySlotUI : MonoBehaviour,
-    IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+    IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerClickHandler
 {
     [SerializeField] private Image iconImage;
     [SerializeField] private TMP_Text countText;
     [SerializeField] private GameObject dragIconPrefab;
+    
+    [SerializeField] private Image backgroundImage;
+    [ColorUsage(true, true)] [SerializeField] private Color normalColor = Color.white;
+    [ColorUsage(true, true)] [SerializeField] private Color selectedColor = new Color(0.7f, 0.7f, 0.7f);
     
     public int slotIndex;
     private Inventory inventory;
@@ -20,6 +24,10 @@ public class InventorySlotUI : MonoBehaviour,
     private GameObject dragIconInstance;
     private static InventoryItem draggedItem;
     private static int draggedAmount;
+    
+    private static Inventory sourceInventory;
+    private static QuickBar sourceQuickBar;
+    private static int sourceSlotIndex;
     
     public void Initialize(Inventory inv, QuickBar quick, int index, bool isQuickBar = false)
     {
@@ -42,6 +50,14 @@ public class InventorySlotUI : MonoBehaviour,
             Clear();
         }
     }
+    
+    public void SetSelected(bool isSelected)
+    {
+        if (backgroundImage != null)
+        {
+            backgroundImage.color = isSelected ? selectedColor : normalColor;
+        }
+    }
 
     public void Clear()
     {
@@ -53,11 +69,13 @@ public class InventorySlotUI : MonoBehaviour,
     public void OnBeginDrag(PointerEventData eventData)
     {
         InventorySlot slot = isQuickBarSlot ? quickBar.quickSlots[slotIndex] : inventory.slots[slotIndex];
-
         if (slot.IsEmpty) return;
-        
+
         draggedItem = slot.item;
         draggedAmount = slot.amount;
+        sourceSlotIndex = slotIndex;
+        sourceInventory = inventory;
+        sourceQuickBar = quickBar;
         
         dragIconInstance = Instantiate(dragIconPrefab, transform.root);
         Image icon = dragIconInstance.GetComponentInChildren<Image>();
@@ -92,13 +110,61 @@ public class InventorySlotUI : MonoBehaviour,
     {
         if (draggedItem == null) return;
 
+        // Determine destination slot
+        InventorySlot destinationSlot = isQuickBarSlot
+            ? quickBar.quickSlots[slotIndex]
+            : inventory.slots[slotIndex];
+
+        // Backup destination data
+        InventoryItem oldItem = destinationSlot.item;
+        int oldAmount = destinationSlot.amount;
+
+        // Step 1: Assign dragged item to destination
+        destinationSlot.item = draggedItem;
+        destinationSlot.amount = draggedAmount;
+
+        // Step 2: Assign old destination item back to source
+        if (sourceInventory != null)
+        {
+            sourceInventory.slots[sourceSlotIndex].item = oldItem;
+            sourceInventory.slots[sourceSlotIndex].amount = oldAmount;
+        }
+        else if (sourceQuickBar != null)
+        {
+            sourceQuickBar.quickSlots[sourceSlotIndex].item = oldItem;
+            sourceQuickBar.quickSlots[sourceSlotIndex].amount = oldAmount;
+        }
+
+        // Step 3: Clear drag data
+        draggedItem = null;
+        draggedAmount = 0;
+        sourceInventory = null;
+        sourceQuickBar = null;
+    }
+    
+    public void OnPointerClick(PointerEventData eventData)
+    {
         if (isQuickBarSlot && quickBar != null)
         {
-            quickBar.AssignSlot(slotIndex, draggedItem, draggedAmount);
+            quickBar.SetSelectedIndex(slotIndex);
         }
-        else if (!isQuickBarSlot && inventory != null)
+        
+        if (eventData.button == PointerEventData.InputButton.Right)
         {
-            inventory.AddItem(draggedItem, draggedAmount);
+            ClearSlot();
+        }
+        
+    }
+    
+    private void ClearSlot()
+    {
+        if (isQuickBarSlot)
+        {
+            quickBar?.quickSlots[slotIndex].Clear();
+        }
+        else
+        {
+            inventory?.slots[slotIndex].Clear();
         }
     }
 

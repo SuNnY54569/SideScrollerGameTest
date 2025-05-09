@@ -1097,7 +1097,6 @@ GameObject:
   - component: {fileID: 679466472}
   - component: {fileID: 679466473}
   - component: {fileID: 679466474}
-  - component: {fileID: 679466475}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1250,21 +1249,6 @@ MonoBehaviour:
   quickBar: {fileID: 1033981852}
   slotPrefab: {fileID: 5011400097407766565, guid: 4429d148f37f51b44a888d6dcc8adeb2, type: 3}
   slotContainer: {fileID: 830874527}
---- !u!114 &679466475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 679466466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f392bc6e03970e143b7bf6486297644f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dragIconPrefab: {fileID: 940815678702025229, guid: 05208bebe5e928a4383f40548aa999d5, type: 3}
-  sourceSlotIndex: 0
-  sourceInventory: {fileID: 0}
 --- !u!1 &680915718
 GameObject:
   m_ObjectHideFlags: 0
@@ -5583,6 +5567,18 @@ PrefabInstance:
     - target: {fileID: 1731758637334312856, guid: 40caa8d25dc44c84bb374cef2f145adb, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5376657542477232767, guid: 40caa8d25dc44c84bb374cef2f145adb, type: 3}
+      propertyPath: quickSlots.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5376657542477232767, guid: 40caa8d25dc44c84bb374cef2f145adb, type: 3}
+      propertyPath: quickSlots.Array.data[0].item
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fb364b8bc9f76541bd50746eed004b5, type: 2}
+    - target: {fileID: 5376657542477232767, guid: 40caa8d25dc44c84bb374cef2f145adb, type: 3}
+      propertyPath: quickSlots.Array.data[0].amount
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9111024296585118178, guid: 40caa8d25dc44c84bb374cef2f145adb, type: 3}
       propertyPath: m_LocalPosition.x

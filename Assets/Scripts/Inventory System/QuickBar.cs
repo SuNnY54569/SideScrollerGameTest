@@ -6,6 +6,7 @@ public class QuickBar : MonoBehaviour
 {
     [SerializeField] private int quickBarSize = 6;
     public List<InventorySlot> quickSlots = new();
+    public int SelectedIndex { get; private set; } = 0;
     
     private void Awake()
     {
@@ -35,5 +36,18 @@ public class QuickBar : MonoBehaviour
     public InventorySlot GetSlot(int index)
     {
         return index >= 0 && index < quickSlots.Count ? quickSlots[index] : null;
+    }
+    
+    public InventorySlot GetSelectedSlot()
+    {
+        return quickSlots[SelectedIndex];
+    }
+    
+    public void SetSelectedIndex(int index)
+    {
+        if (index >= 0 && index < quickSlots.Count)
+        {
+            SelectedIndex = index;
+        }
     }
 }

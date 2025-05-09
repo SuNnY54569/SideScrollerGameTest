@@ -229,6 +229,9 @@ MonoBehaviour:
   iconImage: {fileID: 5450139395697896782}
   countText: {fileID: 6012032749192385898}
   dragIconPrefab: {fileID: 1396642269521554164, guid: 1cc8682057e3af6478bf2ad013b2da99, type: 3}
+  backgroundImage: {fileID: 3313956012402428396}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  selectedColor: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 1}
   slotIndex: 0
 --- !u!1 &7472189497370960625
 GameObject:

@@ -27,7 +27,7 @@ public class QuickBarUI : MonoBehaviour
         {
             GameObject slotGO = Instantiate(slotPrefab, slotContainer);
             var slotUI = slotGO.GetComponent<InventorySlotUI>();
-            slotUI.Initialize(null, null, i); // No inventory
+            slotUI.Initialize(null, quickBar, i, true);
             slotUIs.Add(slotUI);
         }
     }
@@ -38,6 +38,17 @@ public class QuickBarUI : MonoBehaviour
         {
             var slot = quickBar.quickSlots[i];
             slotUIs[i].Set(slot.item, slot.amount);
+            
+            slotUIs[i].SetSelected(i == quickBar.SelectedIndex);
+        }
+
+        
+        for (int i = 0; i < quickBar.quickSlots.Count; i++)
+        {
+            if (Input.GetKeyDown((KeyCode)((int)KeyCode.Alpha1 + i)))
+            {
+                quickBar.SetSelectedIndex(i);
+            }
         }
     }
 }

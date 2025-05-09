@@ -31,6 +31,6 @@ public class TimeUI : MonoBehaviour
     private void UpdateText()
     {
         timeText.text = $"Time: {timeManager.CurrentTime}\n" +
-                        $"Day: {timeManager.CurrentDay} (Day {timeManager.DayCount + 1})";
+                        $"{timeManager.CurrentDay} (Day {timeManager.DayCount + 1})";
     }
 }

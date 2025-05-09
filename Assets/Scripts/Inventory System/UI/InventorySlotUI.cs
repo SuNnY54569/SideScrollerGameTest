@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -151,21 +152,48 @@ public class InventorySlotUI : MonoBehaviour,
         
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            ClearSlot();
+            DropSlotItem();
         }
         
     }
     
-    private void ClearSlot()
+    private void DropSlotItem()
     {
-        if (isQuickBarSlot)
+        var slot = isQuickBarSlot ? quickBar.quickSlots[slotIndex] : inventory.slots[slotIndex];
+        if (slot.IsEmpty) return;
+
+        var player = FindObjectOfType<ItemUser>();
+        if (player != null)
         {
-            quickBar?.quickSlots[slotIndex].Clear();
+            Vector3 dropPosition = player.transform.position + player.transform.right * 1f;
+            var dropObj = Instantiate(player.worldItemPickupPrefab, dropPosition, Quaternion.identity);
+
+            var pickupComponent = dropObj.GetComponent<WorldItemPickup>();
+            if (pickupComponent != null)
+            {
+                pickupComponent.SetItem(slot.item, slot.amount);
+                pickupComponent.transform.localScale = Vector3.one * 0.5f;
+
+                Vector3 targetPosition = dropPosition + transform.right * 1f;
+                float jumpHeight = 1f;
+                float jumpDuration = 0.5f;
+
+                dropObj.transform.DOJump(targetPosition, jumpHeight, 1, jumpDuration)
+                    .SetEase(Ease.OutQuad)
+                    .OnComplete(() =>
+                    {
+                        // Snap to ground after jump completes
+                        Vector3 groundedPosition = new Vector3(
+                            dropObj.transform.position.x,
+                            -2f,  // Adjust if your ground Y is different
+                            dropObj.transform.position.z
+                        );
+                        dropObj.transform.position = groundedPosition;
+                    });
+            }
         }
-        else
-        {
-            inventory?.slots[slotIndex].Clear();
-        }
+
+        slot.Clear();
     }
 
 }

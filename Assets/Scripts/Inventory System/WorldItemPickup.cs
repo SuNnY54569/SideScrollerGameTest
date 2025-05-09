@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -11,26 +12,35 @@ public class WorldItemPickup : MonoBehaviour
     [SerializeField] private float pickupAnimationDuration = 0.3f;
     [SerializeField] private Transform visual;
     [SerializeField] private Color highlightColor = Color.yellow;
+    [SerializeField]private SpriteRenderer spriteRenderer;
     
     private bool playerInRange = false;
     private bool isCollected;
     
     private Inventory playerInventory;
-    private SpriteRenderer spriteRenderer;
-    private Color originalColor;
+    private Color originalColor = Color.white;
     private Transform playerTransform;
     
     private CanvasGroup canvasGroup;
     private Tween promptTween;
     
+    private void OnValidate()
+    {
+        EnsureCollider();
+        UpdateVisuals();
+    }
+    
     
     private void Awake()
     {
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        if (spriteRenderer != null)
-            originalColor = spriteRenderer.color;
+        EnsureCollider();
     }
-    
+
+    private void Start()
+    {
+        UpdateVisuals();
+    }
+
     private void Update()
     {
         if (playerInRange && Input.GetKeyDown(KeyCode.E))
@@ -140,5 +150,38 @@ public class WorldItemPickup : MonoBehaviour
 
         if (canvasGroup != null)
             canvasGroup.DOFade(0f, 0.2f);
+    }
+    
+    public void SetItem(InventoryItem newItem, int newQuantity)
+    {
+        item = newItem;
+        quantity = newQuantity;
+    }
+    
+    private void EnsureCollider()
+    {
+        BoxCollider2D collider = GetComponent<BoxCollider2D>();
+        if (collider == null)
+        {
+            collider = gameObject.AddComponent<BoxCollider2D>();
+        }
+        
+        collider.isTrigger = true;
+        
+        if (spriteRenderer != null && spriteRenderer.sprite != null)
+        {
+            collider.size = spriteRenderer.sprite.bounds.size;
+            collider.offset = spriteRenderer.sprite.bounds.center;
+        }
+    }
+    
+    private void UpdateVisuals()
+    {
+        if (item != null && spriteRenderer != null)
+        {
+            spriteRenderer.sprite = item.icon;
+            spriteRenderer.color = Color.white;
+            name = $"Pickup_{item.itemName}"; 
+        }
     }
 }

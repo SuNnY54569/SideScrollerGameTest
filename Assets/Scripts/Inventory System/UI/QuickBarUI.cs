@@ -23,23 +23,21 @@ public class QuickBarUI : MonoBehaviour
 
     private void CreateSlots()
     {
-        var slots = quickBar.GetQuickBarSlots();
-
-        for (int i = 0; i < slots.Count; i++)
+        for (int i = 0; i < quickBar.quickSlots.Count; i++)
         {
             GameObject slotGO = Instantiate(slotPrefab, slotContainer);
-            InventorySlotUI ui = slotGO.GetComponent<InventorySlotUI>();
-            ui.Initialize(null, null, i); // We don't assign quickBar logic here
-            slotUIs.Add(ui);
+            var slotUI = slotGO.GetComponent<InventorySlotUI>();
+            slotUI.Initialize(null, null, i); // No inventory
+            slotUIs.Add(slotUI);
         }
     }
 
     private void UpdateUI()
     {
-        var slots = quickBar.GetQuickBarSlots();
-        for (int i = 0; i < slots.Count; i++)
+        for (int i = 0; i < quickBar.quickSlots.Count; i++)
         {
-            slotUIs[i].Set(slots[i].item, slots[i].amount);
+            var slot = quickBar.quickSlots[i];
+            slotUIs[i].Set(slot.item, slot.amount);
         }
     }
 }

@@ -4,43 +4,36 @@ using UnityEngine;
 
 public class QuickBar : MonoBehaviour
 {
-    [SerializeField] private Inventory inventory;
     [SerializeField] private int quickBarSize = 6;
-    
-    public List<int> quickBarSlotIndices = new();
+    public List<InventorySlot> quickSlots = new();
     
     private void Awake()
     {
-        inventory = GetComponent<Inventory>();
         
         for (int i = 0; i < quickBarSize; i++)
         {
-            quickBarSlotIndices.Add(i);
+            quickSlots.Add(new InventorySlot());
         }
     }
     
-    public List<InventorySlot> GetQuickBarSlots()
+    public void AssignSlot(int quickSlotIndex, InventoryItem item, int amount = 1)
     {
-        List<InventorySlot> slots = new();
-        foreach (int index in quickBarSlotIndices)
+        if (quickSlotIndex < 0 || quickSlotIndex >= quickSlots.Count) return;
+
+        quickSlots[quickSlotIndex].item = item;
+        quickSlots[quickSlotIndex].amount = Mathf.Clamp(amount, 1, item.maxStack);
+    }
+    
+    public void ClearSlot(int index)
+    {
+        if (index >= 0 && index < quickSlots.Count)
         {
-            slots.Add(inventory.slots[index]);
-        }
-        return slots;
-    }
-    
-    public void AssignSlot(int quickSlotIndex, int inventorySlotIndex)
-    {
-        if (quickSlotIndex >= 0 && quickSlotIndex < quickBarSlotIndices.Count &&
-            inventorySlotIndex >= 0 && inventorySlotIndex < inventory.slots.Count)
-        {
-            quickBarSlotIndices[quickSlotIndex] = inventorySlotIndex;
+            quickSlots[index].Clear();
         }
     }
     
-    public InventorySlot GetSlot(int quickSlotIndex)
+    public InventorySlot GetSlot(int index)
     {
-        if (quickSlotIndex < 0 || quickSlotIndex >= quickBarSlotIndices.Count) return null;
-        return inventory.slots[quickBarSlotIndices[quickSlotIndex]];
+        return index >= 0 && index < quickSlots.Count ? quickSlots[index] : null;
     }
 }

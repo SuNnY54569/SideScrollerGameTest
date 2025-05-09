@@ -48,10 +48,10 @@ public class WorldItemPickup : MonoBehaviour
             bool success = playerInventory.AddItem(item, quantity);
             if (success)
             {
+                isCollected = true;
                 Highlight(false);
                 if (promptUI != null) promptUI.SetActive(false);
                 AnimatePickupAndDestroy();
-                isCollected = true;
             }
             else
             {
@@ -62,6 +62,8 @@ public class WorldItemPickup : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (isCollected) return;
+        
         if (other.CompareTag("Player"))
         {
             playerInventory = other.GetComponent<Inventory>();
@@ -75,6 +77,8 @@ public class WorldItemPickup : MonoBehaviour
     
     private void OnTriggerExit2D(Collider2D other)
     {
+        if (isCollected) return;
+        
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
@@ -102,7 +106,7 @@ public class WorldItemPickup : MonoBehaviour
 
         visual.DOMove(playerTransform.position, pickupAnimationDuration)
             .SetEase(Ease.InBack)
-            .OnComplete(() => Destroy(gameObject, 2f));
+            .OnComplete(() => Destroy(gameObject));
 
         visual.DOScale(0, pickupAnimationDuration).SetEase(Ease.InCubic);
     }
@@ -119,7 +123,7 @@ public class WorldItemPickup : MonoBehaviour
         
         promptTween?.Kill();
         
-        promptTween = promptUI.transform.DOScale(1f, 0.25f).SetEase(Ease.OutBack);
+        promptTween = promptUI?.transform.DOScale(1f, 0.25f).SetEase(Ease.OutBack);
         if (canvasGroup != null)
             canvasGroup.DOFade(1f, 0.25f);
     }
@@ -130,7 +134,7 @@ public class WorldItemPickup : MonoBehaviour
 
         promptTween?.Kill();
         
-        promptTween = promptUI.transform.DOScale(0f, 0.2f)
+        promptTween = promptUI?.transform.DOScale(0f, 0.2f)
             .SetEase(Ease.InBack)
             .OnComplete(() => promptUI.SetActive(false));
 

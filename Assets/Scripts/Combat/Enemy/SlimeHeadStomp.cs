@@ -21,6 +21,7 @@ public class SlimeHeadStomp : MonoBehaviour
             if (enemyHealth != null)
             {
                 enemyHealth.Die();
+                Debug.Log("Enemy die");
             }
         }
     }

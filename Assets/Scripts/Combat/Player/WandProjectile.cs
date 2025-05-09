@@ -14,7 +14,7 @@ public class WandProjectile : MonoBehaviour
     private Vector2 direction = Vector2.right;
     private int damage;
     
-    private void Start()
+    private void OnEnable()
     {
         damage = Random.Range(minDamage, maxDamage + 1);
         PoolReturnUtility.ReturnAfterDelay("Projectile", gameObject, lifetime);

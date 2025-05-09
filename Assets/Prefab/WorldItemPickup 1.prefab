@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4583349788804639412}
   - component: {fileID: 851310742474101194}
   m_Layer: 0
-  m_Name: WorldItemPickup 1
+  m_Name: Pickup_Wand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

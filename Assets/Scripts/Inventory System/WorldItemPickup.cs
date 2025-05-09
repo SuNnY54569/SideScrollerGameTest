@@ -13,6 +13,8 @@ public class WorldItemPickup : MonoBehaviour
     [SerializeField] private Color highlightColor = Color.yellow;
     
     private bool playerInRange = false;
+    private bool isCollected;
+    
     private Inventory playerInventory;
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
@@ -20,6 +22,7 @@ public class WorldItemPickup : MonoBehaviour
     
     private CanvasGroup canvasGroup;
     private Tween promptTween;
+    
     
     private void Awake()
     {
@@ -38,6 +41,8 @@ public class WorldItemPickup : MonoBehaviour
     
     private void TryPickup()
     {
+        if (isCollected) return;
+        
         if (playerInventory != null)
         {
             bool success = playerInventory.AddItem(item, quantity);
@@ -46,6 +51,7 @@ public class WorldItemPickup : MonoBehaviour
                 Highlight(false);
                 if (promptUI != null) promptUI.SetActive(false);
                 AnimatePickupAndDestroy();
+                isCollected = true;
             }
             else
             {
@@ -62,11 +68,8 @@ public class WorldItemPickup : MonoBehaviour
             playerTransform = other.transform;
             playerInRange = true;
             Highlight(true);
-            
-            if (promptUI != null)
-            {
-                promptUI.SetActive(true);
-            }
+
+            ShowPrompt();
         }
     }
     
@@ -78,11 +81,8 @@ public class WorldItemPickup : MonoBehaviour
             playerInventory = null;
             playerTransform = null;
             Highlight(false);
-            
-            if (promptUI != null)
-            {
-                promptUI.SetActive(false);
-            }
+
+            HidePrompt();
         }
     }
     
@@ -102,12 +102,12 @@ public class WorldItemPickup : MonoBehaviour
 
         visual.DOMove(playerTransform.position, pickupAnimationDuration)
             .SetEase(Ease.InBack)
-            .OnComplete(() => Destroy(gameObject));
+            .OnComplete(() => Destroy(gameObject, 2f));
 
         visual.DOScale(0, pickupAnimationDuration).SetEase(Ease.InCubic);
     }
     
-    /*private void ShowPrompt()
+    private void ShowPrompt()
     {
         if (promptUI == null) return;
 
@@ -136,5 +136,5 @@ public class WorldItemPickup : MonoBehaviour
 
         if (canvasGroup != null)
             canvasGroup.DOFade(0f, 0.2f);
-    }*/
+    }
 }

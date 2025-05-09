@@ -17,7 +17,7 @@ public class ItemUser : MonoBehaviour
     private void Update()
     {
         // Example usage trigger (Space or Left Click)
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             UseSelectedItem();
         }
@@ -49,7 +49,9 @@ public class ItemUser : MonoBehaviour
     
     public void SpawnWorldItem(InventoryItem item, int amount,  Vector3 customScale)
     {
-        Vector3 dropPosition = transform.position + transform.right * 1f;
+        float facingDirection = Mathf.Sign(transform.localScale.x);
+        Vector3 dropDirection = Vector3.right * facingDirection;
+        Vector3 dropPosition = transform.position + dropDirection * 1f;
 
         var dropObj = Instantiate(worldItemPickupPrefab, dropPosition, Quaternion.identity);
         var pickupComponent = dropObj.GetComponent<WorldItemPickup>();
@@ -60,7 +62,7 @@ public class ItemUser : MonoBehaviour
             pickupComponent.transform.localScale = customScale;
 
             // Calculate target position slightly forward
-            Vector3 targetPosition = dropPosition + transform.right * jumpDistance;
+            Vector3 targetPosition = dropPosition + dropDirection * jumpDistance;
 
             // Play jump animation and snap to ground after
             dropObj.transform.DOJump(targetPosition, jumpHeight, 1, jumpDuration)

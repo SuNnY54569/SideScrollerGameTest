@@ -110,21 +110,17 @@ public class InventorySlotUI : MonoBehaviour,
     public void OnDrop(PointerEventData eventData)
     {
         if (draggedItem == null) return;
-
-        // Determine destination slot
+        
         InventorySlot destinationSlot = isQuickBarSlot
             ? quickBar.quickSlots[slotIndex]
             : inventory.slots[slotIndex];
-
-        // Backup destination data
+        
         InventoryItem oldItem = destinationSlot.item;
         int oldAmount = destinationSlot.amount;
-
-        // Step 1: Assign dragged item to destination
+        
         destinationSlot.item = draggedItem;
         destinationSlot.amount = draggedAmount;
-
-        // Step 2: Assign old destination item back to source
+        
         if (sourceInventory != null)
         {
             sourceInventory.slots[sourceSlotIndex].item = oldItem;
@@ -135,8 +131,7 @@ public class InventorySlotUI : MonoBehaviour,
             sourceQuickBar.quickSlots[sourceSlotIndex].item = oldItem;
             sourceQuickBar.quickSlots[sourceSlotIndex].amount = oldAmount;
         }
-
-        // Step 3: Clear drag data
+        
         draggedItem = null;
         draggedAmount = 0;
         sourceInventory = null;
@@ -165,7 +160,9 @@ public class InventorySlotUI : MonoBehaviour,
         var player = FindObjectOfType<ItemUser>();
         if (player != null)
         {
-            Vector3 dropPosition = player.transform.position + player.transform.right * 1f;
+            float facingDirection = Mathf.Sign(player.transform.localScale.x);
+            Vector3 dropDirection = Vector3.right * facingDirection;
+            Vector3 dropPosition = player.transform.position + dropDirection * 1f;
             var dropObj = Instantiate(player.worldItemPickupPrefab, dropPosition, Quaternion.identity);
 
             var pickupComponent = dropObj.GetComponent<WorldItemPickup>();
@@ -174,7 +171,7 @@ public class InventorySlotUI : MonoBehaviour,
                 pickupComponent.SetItem(slot.item, slot.amount);
                 pickupComponent.transform.localScale = Vector3.one * 0.5f;
 
-                Vector3 targetPosition = dropPosition + transform.right * 1f;
+                Vector3 targetPosition = dropPosition + dropDirection * 1f;
                 float jumpHeight = 1f;
                 float jumpDuration = 0.5f;
 

@@ -9,44 +9,60 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private int maxHP = 100;
     [SerializeField] private int currentHP;
     [SerializeField] private Color hitColor = Color.red;
+    [SerializeField] private GameObject stunEffectPrefab;
+    [SerializeField] private Transform stunEffectPos;
+    private GameObject stunEffectInstance;
+    private bool isStunned = false;
     private SpriteRenderer spriteRenderer;
-    private Color originalColor;
     private Rigidbody2D rb;
+    private Color originalColor;
     private Tween flashTween;
+    
+    private Tween knockbackTween;
     
     public int MaxHP => maxHP;
     public int CurrentHP => currentHP;
+    public bool IsStunned => isStunned;
     
     public UnityEvent<int> OnHealthChanged;
     
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        originalColor = spriteRenderer.color;
         rb = GetComponent<Rigidbody2D>();
+        originalColor = spriteRenderer.color;
         currentHP = maxHP;
         OnHealthChanged?.Invoke(currentHP);
     }
     
-    public void TakeDamage(int amount, Vector2 hitSource, float knockbackForce)
+    public void TakeDamage(int amount, Vector2 hitSource, float distance, float duration, float stunDuration)
     {
+        
         currentHP -= amount;
         currentHP = Mathf.Max(0, currentHP);
         OnHealthChanged?.Invoke(currentHP);
         
-        Vector2 playerPos = new Vector2(transform.position.x, transform.position.y);
-        Vector2 hitDir = (playerPos - hitSource).normalized;
-        
-        float angleInDegrees = 45f;
-        Vector2 rotatedDir = Quaternion.Euler(0, 0, angleInDegrees) * hitDir;
-
-        rb.AddForce(rotatedDir * knockbackForce, ForceMode2D.Impulse);
         PlayHitFlash();
 
         if (currentHP <= 0)
         {
             Debug.Log("Player died");
         }
+        
+        if (isStunned) return;
+        isStunned = true;
+        
+        rb.velocity = Vector2.zero;
+        
+        float directionX = transform.position.x < hitSource.x ? -1f : 1f;
+        Vector3 targetPosition = transform.position + new Vector3(directionX * distance, 0f, 0f);
+        
+        knockbackTween?.Kill();
+        
+        knockbackTween = transform.DOMoveX(targetPosition.x, duration)
+            .SetEase(Ease.OutQuad)
+            .OnComplete(() => StartCoroutine(StunTimer(stunDuration)));
+        
     }
     
     private void PlayHitFlash()
@@ -63,5 +79,23 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHP = maxHP;
         OnHealthChanged?.Invoke(currentHP);
+    }
+    
+    private IEnumerator StunTimer(float stunDuration)
+    {
+        
+        if (stunEffectPrefab != null)
+        {
+            stunEffectInstance = Instantiate(stunEffectPrefab, stunEffectPos.position, Quaternion.identity, transform);
+        }
+        
+        yield return new WaitForSeconds(stunDuration);
+        
+        if (stunEffectInstance != null)
+        {
+            Destroy(stunEffectInstance);
+        }
+
+        isStunned = false;
     }
 }

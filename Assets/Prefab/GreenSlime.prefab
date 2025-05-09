@@ -371,4 +371,6 @@ MonoBehaviour:
   attackCooldown: 3
   attackDamage: 10
   offset: {x: 0, y: 0.58, z: 0}
-  knockbackForce: 5
+  knockbackDistance: 2
+  knockbackDuration: 0.4
+  stunDuration: 1

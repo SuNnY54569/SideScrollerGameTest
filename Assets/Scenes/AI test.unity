@@ -1604,22 +1604,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 633325284007795762, guid: 225340c95a59af748ae304d255d03341, type: 3}
-      propertyPath: m_Size.x
-      value: 0.6666667
-      objectReference: {fileID: 0}
-    - target: {fileID: 633325284007795762, guid: 225340c95a59af748ae304d255d03341, type: 3}
-      propertyPath: m_Size.y
-      value: 0.6666667
-      objectReference: {fileID: 0}
-    - target: {fileID: 633325284007795762, guid: 225340c95a59af748ae304d255d03341, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 9470acdda3b9332468e4864ef4968d78, type: 3}
-    - target: {fileID: 633325284007795762, guid: 225340c95a59af748ae304d255d03341, type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 926622700075438583, guid: 225340c95a59af748ae304d255d03341, type: 3}
       propertyPath: m_Name
       value: Pickup_Wand
@@ -1664,10 +1648,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4583349788804639412, guid: 225340c95a59af748ae304d255d03341, type: 3}
-      propertyPath: item
-      value: 
-      objectReference: {fileID: 11400000, guid: a589975cf7e34b94790f7c992c39d12e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

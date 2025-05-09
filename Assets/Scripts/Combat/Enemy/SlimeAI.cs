@@ -21,9 +21,12 @@ public class SlimeAI : MonoBehaviour
     [SerializeField] private float attackCooldown = 1f;
     [SerializeField] private int attackDamage = 10;
     [SerializeField] private Vector3 offset;
-    [SerializeField] private float knockbackForce = 5f;
+    [SerializeField] private float knockbackDistance = 1f;
+    [SerializeField] private float knockbackDuration = 0.2f;
+    [SerializeField] private float stunDuration = 0.5f;
 
     private float lastAttackTime = -Mathf.Infinity;
+    private bool allowFlip = true;
     
     private void Update()
     {
@@ -52,12 +55,14 @@ public class SlimeAI : MonoBehaviour
         if (movingRight)
         {
             transform.Translate(Vector2.right * step);
+            Flip(-1);
             if (transform.position.x >= rightBoundary.position.x)
                 movingRight = false;
         }
         else
         {
             transform.Translate(Vector2.left * step);
+            Flip(1);
             if (transform.position.x <= leftBoundary.position.x)
                 movingRight = true;
         }
@@ -80,6 +85,8 @@ public class SlimeAI : MonoBehaviour
         float step = moveSpeed * Time.deltaTime;
         Vector2 direction = (player.position - transform.position).normalized;
         transform.Translate(direction * step);
+        
+        Flip(-direction.x);
     }
     
     private void OnDrawGizmosSelected()
@@ -106,10 +113,20 @@ public class SlimeAI : MonoBehaviour
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
-                playerHealth.TakeDamage(attackDamage, transform.position + offset, knockbackForce);
+                playerHealth.TakeDamage(attackDamage, transform.position + offset, knockbackDistance, knockbackDuration, stunDuration);
             }
 
             lastAttackTime = Time.time;
         }
+    }
+    
+    private void Flip(float direction)
+    {
+        if (!allowFlip) return;
+        
+        if (direction > 0)
+            transform.localScale = new Vector3(1, 1, 1);  // Facing right
+        else if (direction < 0)
+            transform.localScale = new Vector3(-1, 1, 1); // Facing left
     }
 }

@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Reference")] 
+    [SerializeField] private PlayerHealth playerHealth;
+    
     [Header("Movement Settings")]
     [SerializeField]private float moveSpeed = 5f;
     [SerializeField]private float jumpForce = 10f;
@@ -31,17 +34,26 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        if (playerHealth == null)
+        {
+            playerHealth = GetComponent<PlayerHealth>();
+        }
     }
 
     private void Update()
     {
         UpdateGroundedStatus();
         
-        UpdateCoyoteTime();
-        UpdateJumpBuffer();
+        if (!playerHealth.IsStunned)
+        {
+            UpdateCoyoteTime();
+            UpdateJumpBuffer();
         
-        HandleMovement();
-        HandleJump();
+            HandleMovement();
+            HandleJump();
+        }
+        
         UpdateAnimator();
     }
     

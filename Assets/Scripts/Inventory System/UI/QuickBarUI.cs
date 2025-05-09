@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,15 @@ public class QuickBarUI : MonoBehaviour
     [SerializeField] private Transform slotContainer;
     
     private List<InventorySlotUI> slotUIs = new();
-    
+
+    private void Awake()
+    {
+        if (quickBar == null)
+        {
+            quickBar = FindObjectOfType<QuickBar>();
+        }
+    }
+
     private void Start()
     {
         CreateSlots();

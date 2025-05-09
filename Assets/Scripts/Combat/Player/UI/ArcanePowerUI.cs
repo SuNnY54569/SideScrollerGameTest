@@ -15,7 +15,15 @@ public class ArcanePowerUI : MonoBehaviour
     [SerializeField] private float lowThreshold = 0.2f;
 
     private Tween pulseTween;
-    
+
+    private void Awake()
+    {
+        if (arcanePower == null)
+        {
+            arcanePower = FindObjectOfType<ArcanePower>();
+        }
+    }
+
     private void Start()
     {
         if (arcanePower != null)

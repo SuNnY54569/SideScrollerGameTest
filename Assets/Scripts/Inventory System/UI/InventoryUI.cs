@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -16,6 +17,20 @@ public class InventoryUI : MonoBehaviour
     private CanvasGroup canvasGroup;
     private CanvasGroup bgCanvasGroup;
     private Tween containerTween;
+
+    private void Awake()
+    {
+        if (inventory == null)
+        {
+            inventory = FindObjectOfType<Inventory>();
+        }
+
+        if (quickBar == null)
+        {
+            quickBar = FindObjectOfType<QuickBar>();
+        }
+    }
+
     private void Start()
     {
         CreateSlots();

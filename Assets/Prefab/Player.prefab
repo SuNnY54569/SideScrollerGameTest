@@ -41,10 +41,11 @@ GameObject:
   m_Component:
   - component: {fileID: 9111024296585118178}
   - component: {fileID: 734447997828564025}
-  - component: {fileID: 7564728222006082320}
   - component: {fileID: 9223048410596256291}
   - component: {fileID: 5880290257222356493}
   - component: {fileID: 8959738322325261331}
+  - component: {fileID: 7564728222006082320}
+  - component: {fileID: 6424638694823071809}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -95,27 +96,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &7564728222006082320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1731758637334312856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a93adfac19ac2de41b93472d9a30176a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpForce: 5
-  jumpCooldown: 1.25
-  coyoteTime: 0.2
-  jumpBufferTime: 0.2
-  groundCheck: {fileID: 6079485901033972987}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!95 &9223048410596256291
 Animator:
   serializedVersion: 5
@@ -224,3 +204,38 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 1}
   m_Direction: 0
+--- !u!114 &7564728222006082320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731758637334312856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a93adfac19ac2de41b93472d9a30176a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  jumpForce: 5
+  jumpCooldown: 1.25
+  coyoteTime: 0.2
+  jumpBufferTime: 0.2
+  groundCheck: {fileID: 6079485901033972987}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!114 &6424638694823071809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731758637334312856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7a890a6f98b44a4097f9e4f0a202eb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotCount: 8
+  slots: []

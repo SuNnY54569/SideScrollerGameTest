@@ -123,6 +123,92 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &174361768
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4660692579804997054, guid: 35a21b27b5c7b51479495c7fc1a46101, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4660692579804997054, guid: 35a21b27b5c7b51479495c7fc1a46101, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4660692579804997054, guid: 35a21b27b5c7b51479495c7fc1a46101, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4660692579804997054, guid: 35a21b27b5c7b51479495c7fc1a46101, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4660692579804997054, guid: 35a21b27b5c7b51479495c7fc1a46101, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4660692579804997054, guid: 35a21b27b5c7b51479495c7fc1a46101, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4660692579804997054, guid: 35a21b27b5c7b51479495c7fc1a46101, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4660692579804997054, guid: 35a21b27b5c7b51479495c7fc1a46101, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4660692579804997054, guid: 35a21b27b5c7b51479495c7fc1a46101, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4660692579804997054, guid: 35a21b27b5c7b51479495c7fc1a46101, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146285556706958874, guid: 35a21b27b5c7b51479495c7fc1a46101, type: 3}
+      propertyPath: chestInventory
+      value: 
+      objectReference: {fileID: 174361775}
+    - target: {fileID: 7187190180229081834, guid: 35a21b27b5c7b51479495c7fc1a46101, type: 3}
+      propertyPath: m_Name
+      value: Chest
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7187190180229081834, guid: 35a21b27b5c7b51479495c7fc1a46101, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 174361775}
+  m_SourcePrefab: {fileID: 100100000, guid: 35a21b27b5c7b51479495c7fc1a46101, type: 3}
+--- !u!1 &174361769 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7187190180229081834, guid: 35a21b27b5c7b51479495c7fc1a46101, type: 3}
+  m_PrefabInstance: {fileID: 174361768}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &174361775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174361769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7a890a6f98b44a4097f9e4f0a202eb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalSlotCount: 16
+  slots: []
+  OnInventoryChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &482046066
 GameObject:
   m_ObjectHideFlags: 0
@@ -1370,6 +1456,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3376273872023950612, guid: ae78d51c578721b428cc16a7e075614c, type: 3}
+      propertyPath: backgroundSprite
+      value: 
+      objectReference: {fileID: 482046067}
     - target: {fileID: 6895906870421876299, guid: ae78d51c578721b428cc16a7e075614c, type: 3}
       propertyPath: m_Name
       value: TimeManager
@@ -1666,6 +1756,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4430301298825373885, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4543189256717716749, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -1825,3 +1919,4 @@ SceneRoots:
   - {fileID: 4537358285577182753}
   - {fileID: 1040068888}
   - {fileID: 953675389}
+  - {fileID: 174361768}

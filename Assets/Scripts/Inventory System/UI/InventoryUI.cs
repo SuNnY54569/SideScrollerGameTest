@@ -16,15 +16,13 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private GameObject Trashcan;
     [SerializeField] private GameObject craftingMenuPanel;
     
+    public bool IsOpened => isOpened;
     private List<InventorySlotUI> slotUIs = new();
     private bool isOpened;
     private CanvasGroup craftingCanvasGroup;
     private CanvasGroup canvasGroup;
     private CanvasGroup bgCanvasGroup;
     private Tween containerTween;
-    
-    public event Action OnInventoryOpened;
-    public event Action OnInventoryClosed;
 
     private void Awake()
     {
@@ -96,7 +94,6 @@ public class InventoryUI : MonoBehaviour
 
         PrepareUI();
         AnimateOpen();
-        OnInventoryOpened?.Invoke();
     }
     
     public void CloseInventory()
@@ -105,7 +102,6 @@ public class InventoryUI : MonoBehaviour
         isOpened = false;
 
         AnimateClose();
-        OnInventoryClosed?.Invoke();
     }
     
     private void PrepareUI()
@@ -171,5 +167,15 @@ public class InventoryUI : MonoBehaviour
     {
         Time.timeScale = pause ? 0f : 1f;
         Debug.Log("pause");
+    }
+    
+    public void ForceOpen()
+    {
+        if (!isOpened) OpenInventory();
+    }
+    
+    public void ForceClose()
+    {
+        if (isOpened) CloseInventory();
     }
 }

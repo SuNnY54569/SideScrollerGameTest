@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class BigSlimeAI : SlimeAI
 {
+    [Header("Projectile Attack Settings")]
     [SerializeField] private float shootCooldown = 2f;
-    [SerializeField] private Transform projectileSpawn;
+    [SerializeField] private Transform projectileSpawnPoint;
+
     private float lastShootTime;
     
     protected override void Update()
@@ -13,30 +15,36 @@ public class BigSlimeAI : SlimeAI
         if (enemyHealth.IsDying) return;
         
         base.Update();
-        HandleShooting();
+        TryShootAtPlayer();
     }
     
-    private void HandleShooting()
+    private void TryShootAtPlayer()
     {
-        if (PlayerInRange() && Time.time - lastShootTime >= shootCooldown)
+        if (!PlayerInRange()) return;
+
+        if (Time.time - lastShootTime >= shootCooldown)
         {
-            Vector2 targetPosition = player.position;
-            Vector2 shootDirection = (targetPosition - (Vector2)projectileSpawn.position).normalized;
-
-            GameObject projectile = ObjectPoolManager.Instance.Get("SlimeProjectile");
-            if (projectile != null)
-            {
-                projectile.transform.position = projectileSpawn.position;
-                projectile.transform.rotation = Quaternion.identity;
-
-                SlimeProjectile slimeProjectile = projectile.GetComponent<SlimeProjectile>();
-                if (slimeProjectile != null)
-                {
-                    slimeProjectile.SetDirection(shootDirection);
-                }
-            }
-
+            ShootProjectileAtPlayer();
             lastShootTime = Time.time;
+        }
+    }
+    
+    private void ShootProjectileAtPlayer()
+    {
+        Vector2 targetPosition = player.position;
+        Vector2 shootDirection = (targetPosition - (Vector2)projectileSpawnPoint.position).normalized;
+
+        GameObject projectile = ObjectPoolManager.Instance.Get("SlimeProjectile");
+        if (projectile != null)
+        {
+            projectile.transform.position = projectileSpawnPoint.position;
+            projectile.transform.rotation = Quaternion.identity;
+
+            SlimeProjectile slimeProjectile = projectile.GetComponent<SlimeProjectile>();
+            if (slimeProjectile != null)
+            {
+                slimeProjectile.SetDirection(shootDirection);
+            }
         }
     }
 }

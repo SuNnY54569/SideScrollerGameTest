@@ -316,9 +316,9 @@ MonoBehaviour:
   currentAP: 0
   apPerShot: 10
   enableRegen: 1
-  regenTickInterval: 0.1
-  regenAmountPerTick: 1
-  regenDelay: 5
+  regenTickInterval: 0.5
+  regenAmountPerTick: 5
+  regenDelay: 1
   OnAPChanged:
     m_PersistentCalls:
       m_Calls: []

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class QuickBar : MonoBehaviour
 {
-    [SerializeField] private int quickBarSize = 6;
+    [SerializeField] private int quickBarSize = 8;
     public List<InventorySlot> quickSlots = new();
     public int SelectedIndex { get; private set; } = 0;
     

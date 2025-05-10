@@ -6,17 +6,21 @@ using UnityEngine.Events;
 
 public class ArcanePower : MonoBehaviour
 {
+    [Header("Arcane Power Settings")]
     [SerializeField] private int maxAP = 100;
     [SerializeField] private int currentAP;
     [SerializeField] private int apPerShot = 10;
+    
+    [Header("Regeneration Settings")]
     [SerializeField] private bool enableRegen = true;
     [SerializeField] private float regenTickInterval = 1f;
     [SerializeField] private int regenAmountPerTick = 5;
     [SerializeField] private float regenDelay = 1f;
     
-    public int MaxAP => maxAP;
     private float lastUseTime;
     private float nextRegenTime;
+    public int MaxAP => maxAP;
+    public int CurrentAP => currentAP;
     
     public UnityEvent<int> OnAPChanged;
     
@@ -29,22 +33,17 @@ public class ArcanePower : MonoBehaviour
     {
         if (!enableRegen || currentAP >= maxAP) return;
 
-        if (Time.time - lastUseTime >= regenDelay)
+        if (Time.time - lastUseTime >= regenDelay && Time.time >= nextRegenTime)
         {
-            if (Time.time >= nextRegenTime)
-            {
-                currentAP += regenAmountPerTick;
-                currentAP = Mathf.Min(currentAP, maxAP);
-                OnAPChanged?.Invoke(currentAP);
-
-                nextRegenTime = Time.time + regenTickInterval;
-            }
+            RegenerateAP();
         }
     }
-
-    public bool CanUse()
+    
+    private void RegenerateAP()
     {
-        return currentAP >= apPerShot;
+        currentAP = Mathf.Min(currentAP + regenAmountPerTick, maxAP);
+        OnAPChanged?.Invoke(currentAP);
+        nextRegenTime = Time.time + regenTickInterval;
     }
     
     public void UseAP()
@@ -63,13 +62,11 @@ public class ArcanePower : MonoBehaviour
         OnAPChanged?.Invoke(currentAP);
     }
     
-    public int GetCurrentAP()
-    {
-        return currentAP;
-    }
-    
     public void SetRegenEnabled(bool enabled)
     {
         enableRegen = enabled;
     }
+    
+    public bool CanUse() => currentAP >= apPerShot;
+    public int GetCurrentAP() => currentAP;
 }

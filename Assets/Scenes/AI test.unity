@@ -175,38 +175,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6018502746045189393, guid: 6e969b8f9ccbb4f4cb88775c6bc33e4c, type: 3}
-      propertyPath: poolsConfig.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6018502746045189393, guid: 6e969b8f9ccbb4f4cb88775c6bc33e4c, type: 3}
-      propertyPath: poolsConfig.Array.data[2].key
-      value: SlimeProjectile
-      objectReference: {fileID: 0}
-    - target: {fileID: 6018502746045189393, guid: 6e969b8f9ccbb4f4cb88775c6bc33e4c, type: 3}
-      propertyPath: poolsConfig.Array.data[3].key
-      value: SlimeImpact
-      objectReference: {fileID: 0}
-    - target: {fileID: 6018502746045189393, guid: 6e969b8f9ccbb4f4cb88775c6bc33e4c, type: 3}
-      propertyPath: poolsConfig.Array.data[2].prefab
-      value: 
-      objectReference: {fileID: 1222908208336480367, guid: 47d3ba2dc2958ce42bfeb73fc200de76, type: 3}
-    - target: {fileID: 6018502746045189393, guid: 6e969b8f9ccbb4f4cb88775c6bc33e4c, type: 3}
-      propertyPath: poolsConfig.Array.data[3].prefab
-      value: 
-      objectReference: {fileID: 2120777460937575827, guid: 88b7bd76842240849a338352ae68c500, type: 3}
-    - target: {fileID: 6018502746045189393, guid: 6e969b8f9ccbb4f4cb88775c6bc33e4c, type: 3}
-      propertyPath: poolsConfig.Array.data[1].initialSize
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6018502746045189393, guid: 6e969b8f9ccbb4f4cb88775c6bc33e4c, type: 3}
-      propertyPath: poolsConfig.Array.data[2].initialSize
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6018502746045189393, guid: 6e969b8f9ccbb4f4cb88775c6bc33e4c, type: 3}
-      propertyPath: poolsConfig.Array.data[3].initialSize
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 7447266845020912502, guid: 6e969b8f9ccbb4f4cb88775c6bc33e4c, type: 3}
       propertyPath: m_Name
       value: ObjectPoolingManager
@@ -535,6 +503,18 @@ PrefabInstance:
     - target: {fileID: 1731758637334312856, guid: 40caa8d25dc44c84bb374cef2f145adb, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6527035818228427827, guid: 40caa8d25dc44c84bb374cef2f145adb, type: 3}
+      propertyPath: regenDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6527035818228427827, guid: 40caa8d25dc44c84bb374cef2f145adb, type: 3}
+      propertyPath: regenTickInterval
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6527035818228427827, guid: 40caa8d25dc44c84bb374cef2f145adb, type: 3}
+      propertyPath: regenAmountPerTick
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9111024296585118178, guid: 40caa8d25dc44c84bb374cef2f145adb, type: 3}
       propertyPath: m_LocalPosition.x

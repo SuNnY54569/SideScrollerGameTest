@@ -6,19 +6,23 @@ using UnityEngine.Events;
 
 public class PlayerHealth : MonoBehaviour
 {
+    [Header("Health Settings")]
     [SerializeField] private int maxHP = 100;
     [SerializeField] private int currentHP;
     [SerializeField] private Color hitColor = Color.red;
+    
+    [Header("Stun Settings")]
     [SerializeField] private GameObject stunEffectPrefab;
     [SerializeField] private Transform stunEffectPos;
-    private GameObject stunEffectInstance;
+    
     private bool isStunned = false;
+    
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
     private Color originalColor;
     private Tween flashTween;
-    
     private Tween knockbackTween;
+    private GameObject stunEffectInstance;
     
     public int MaxHP => maxHP;
     public int CurrentHP => currentHP;
@@ -35,9 +39,8 @@ public class PlayerHealth : MonoBehaviour
         OnHealthChanged?.Invoke(currentHP);
     }
     
-    public void TakeDamage(int amount, Vector2 hitSource, float distance, float duration, float stunDuration)
+    public void TakeDamage(int amount, Vector2 hitSource, float  knockbackDistance, float  knockbackDuration, float stunDuration)
     {
-        
         currentHP -= amount;
         currentHP = Mathf.Max(0, currentHP);
         OnHealthChanged?.Invoke(currentHP);
@@ -52,33 +55,29 @@ public class PlayerHealth : MonoBehaviour
         if (isStunned) return;
         isStunned = true;
         
-        rb.velocity = Vector2.zero;
+        ApplyKnockback(hitSource, knockbackDistance,  knockbackDuration, stunDuration);
         
+    }
+    
+    private void ApplyKnockback(Vector2 hitSource, float distance, float duration, float stunDuration)
+    {
+        rb.velocity = Vector2.zero;
+
         float directionX = transform.position.x < hitSource.x ? -1f : 1f;
         Vector3 targetPosition = transform.position + new Vector3(directionX * distance, 0f, 0f);
-        
+
         knockbackTween?.Kill();
-        
         knockbackTween = transform.DOMoveX(targetPosition.x, duration)
             .SetEase(Ease.OutQuad)
             .OnComplete(() => StartCoroutine(StunTimer(stunDuration)));
-        
     }
     
     private void PlayHitFlash()
     {
-        if (flashTween != null && flashTween.IsActive())
-            flashTween.Kill();
-
+        flashTween?.Kill();
         flashTween = spriteRenderer.DOColor(hitColor, 0.1f)
             .SetLoops(4, LoopType.Yoyo)
             .OnComplete(() => spriteRenderer.color = originalColor);
-    }
-    
-    public void ResetHealth()
-    {
-        currentHP = maxHP;
-        OnHealthChanged?.Invoke(currentHP);
     }
     
     private IEnumerator StunTimer(float stunDuration)
@@ -97,5 +96,11 @@ public class PlayerHealth : MonoBehaviour
         }
 
         isStunned = false;
+    }
+    
+    public void ResetHealth()
+    {
+        currentHP = maxHP;
+        OnHealthChanged?.Invoke(currentHP);
     }
 }

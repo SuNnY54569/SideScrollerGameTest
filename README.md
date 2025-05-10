@@ -8,3 +8,7 @@
 -Time Slider(30 min)
 -Inventory System & Pickup Item(3 hour)
 -Refined and adjust(2 hour)
+
+todo
+-Crafting System (quick craft for crafting table, crafting table for chest, campfire for meat)
+-Game loop(new map, map transition, spawning enemy, background color change)

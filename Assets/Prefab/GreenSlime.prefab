@@ -329,14 +329,14 @@ MonoBehaviour:
   attackRange: 1.5
   attackCooldown: 3
   attackDamage: 10
-  attackRangeoffset: {x: 0, y: 0.75, z: 0}
+  attackRangeOffset: {x: 0, y: 0.75, z: 0}
   knockbackDistance: 1
   knockbackDuration: 0.2
   stunDuration: 0.5
   reactionDelay: 1
   angryColor: {r: 1, g: 0.5058824, b: 0.5058824, a: 1}
   shootCooldown: 5
-  projectileSpawn: {fileID: 5575401538026452418}
+  projectileSpawnPoint: {fileID: 5575401538026452418}
 --- !u!114 &724002742739781235
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -95,4 +95,10 @@ MonoBehaviour:
     initialSize: 5
   - key: Projectile
     prefab: {fileID: 1222908208336480367, guid: 181be1eb524807e448716fdc4ef5c6dc, type: 3}
+    initialSize: 10
+  - key: SlimeProjectile
+    prefab: {fileID: 1222908208336480367, guid: 47d3ba2dc2958ce42bfeb73fc200de76, type: 3}
+    initialSize: 5
+  - key: SlimeImpact
+    prefab: {fileID: 2120777460937575827, guid: 88b7bd76842240849a338352ae68c500, type: 3}
     initialSize: 5

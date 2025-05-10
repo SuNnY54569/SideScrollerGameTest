@@ -24,22 +24,47 @@ public class ObjectPoolManager : MonoBehaviour
         if (Instance == null)
             Instance = this;
         else
+        {
             Destroy(gameObject);
+            return;
+        }
         
-        
+        InitializePools();
+    }
+    
+    private void InitializePools()
+    {
         foreach (var pool in poolsConfig)
         {
-            Queue<GameObject> objectPool = new Queue<GameObject>();
+            Preload(pool.key, pool.initialSize);
+            prefabDictionary[pool.key] = pool.prefab;
+        }
+    }
+    
+    private GameObject CreatePooledObject(GameObject prefab)
+    {
+        GameObject obj = Instantiate(prefab);
+        obj.SetActive(false);
+        return obj;
+    }
 
-            for (int i = 0; i < pool.initialSize; i++)
-            {
-                GameObject obj = Instantiate(pool.prefab);
-                obj.SetActive(false);
-                objectPool.Enqueue(obj);
-            }
+    public void Preload(string key, int amount)
+    {
+        if (!prefabDictionary.ContainsKey(key))
+        {
+            Debug.LogWarning($"No pool exists with key '{key}'.");
+            return;
+        }
 
-            poolDictionary.Add(pool.key, objectPool);
-            prefabDictionary.Add(pool.key, pool.prefab);
+        if (!poolDictionary.ContainsKey(key))
+        {
+            poolDictionary[key] = new Queue<GameObject>();
+        }
+
+        for (int i = 0; i < amount; i++)
+        {
+            GameObject obj = CreatePooledObject(prefabDictionary[key]);
+            poolDictionary[key].Enqueue(obj);
         }
     }
     
@@ -53,9 +78,8 @@ public class ObjectPoolManager : MonoBehaviour
 
         if (poolDictionary[key].Count == 0)
         {
-            GameObject obj = Instantiate(prefabDictionary[key]);
-            obj.SetActive(false);
-            poolDictionary[key].Enqueue(obj);
+            GameObject newObj = CreatePooledObject(prefabDictionary[key]);
+            poolDictionary[key].Enqueue(newObj);
         }
 
         GameObject pooledObj = poolDictionary[key].Dequeue();
@@ -65,6 +89,13 @@ public class ObjectPoolManager : MonoBehaviour
     
     public void ReturnToPool(string key, GameObject obj)
     {
+        if (!poolDictionary.ContainsKey(key))
+        {
+            Debug.LogWarning($"Trying to return object to non-existent pool with key '{key}'.");
+            Destroy(obj);
+            return;
+        }
+
         obj.SetActive(false);
         poolDictionary[key].Enqueue(obj);
     }

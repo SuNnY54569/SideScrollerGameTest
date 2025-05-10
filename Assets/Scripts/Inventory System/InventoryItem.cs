@@ -18,4 +18,5 @@ public class InventoryItem : ScriptableObject
     public int maxStack = 10;
     public ItemType itemType;
     public bool isStackable = true;
+    public GameObject worldDisplayPrefab;
 }

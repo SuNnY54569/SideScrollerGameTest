@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class ChestUI : MonoBehaviour
@@ -12,6 +13,7 @@ public class ChestUI : MonoBehaviour
     
     private List<InventorySlotUI> slotUIs = new();
     private Inventory currentChestInventory;
+    private Tween panelTween;
     
     public bool IsOpen => chestPanel.activeSelf;
 
@@ -40,13 +42,16 @@ public class ChestUI : MonoBehaviour
     {
         ClearUI();
         currentChestInventory = chestInventory;
+
         chestPanel.SetActive(true);
+        chestPanel.transform.localScale = Vector3.zero;
+        panelTween?.Kill();
+        panelTween = chestPanel.transform.DOScale(1f, 0.25f).SetEase(Ease.OutBack);
 
         PrepareSlots();
         currentChestInventory.OnInventoryChanged.AddListener(UpdateUI);
 
-        InventoryUI.Instance.ForceOpen(); // Ensure player inventory is open too
-        
+        InventoryUI.Instance.ForceOpen();
         UpdateUI();
     }
 
@@ -56,10 +61,15 @@ public class ChestUI : MonoBehaviour
         {
             currentChestInventory.OnInventoryChanged.RemoveListener(UpdateUI);
         }
-        
+
         InventoryUI.Instance.ForceClose();
-        chestPanel.SetActive(false);
-        currentChestInventory = null;
+        panelTween?.Kill();
+        panelTween = chestPanel.transform.DOScale(0f, 0.2f).SetEase(Ease.InBack)
+            .OnComplete(() =>
+            {
+                chestPanel.SetActive(false);
+                currentChestInventory = null;
+            });
     }
     
     private void PrepareSlots()
@@ -78,7 +88,6 @@ public class ChestUI : MonoBehaviour
     
     private void UpdateUI()
     {
-        // Refresh slotUIs based on current chestInventory
         for (int i = 0; i < slotUIs.Count; i++)
         {
             var slot = currentChestInventory.slots[i];

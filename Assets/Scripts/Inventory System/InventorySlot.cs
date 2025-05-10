@@ -40,4 +40,17 @@ public class InventorySlot
         item = null;
         amount = 0;
     }
+    
+    public int MergeItem(InventoryItem newItem, int quantity)
+    {
+        if (IsEmpty || item != newItem || !item.isStackable)
+            return quantity;
+
+        int availableSpace = item.maxStack - amount;
+        int toAdd = Mathf.Min(availableSpace, quantity);
+
+        amount += toAdd;
+
+        return quantity - toAdd;
+    }
 }

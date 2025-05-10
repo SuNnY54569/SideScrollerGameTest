@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 7564728222006082320}
   - component: {fileID: 6424638694823071809}
   - component: {fileID: 5376657542477232767}
+  - component: {fileID: 2507010196526217762}
   - component: {fileID: 7233396364444113374}
   - component: {fileID: 6527035818228427827}
   - component: {fileID: 1002589078231421007}
@@ -267,6 +268,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalSlotCount: 24
   slots: []
+  OnInventoryChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5376657542477232767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,6 +286,22 @@ MonoBehaviour:
   playerInventory: {fileID: 6424638694823071809}
   playerHandDisplay: {fileID: 1002589078231421007}
   quickBarSize: 8
+--- !u!114 &2507010196526217762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731758637334312856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 329b116e3f3987445ac50c9f8bc5f2da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInventory: {fileID: 6424638694823071809}
+  feedbackUI: {fileID: 0}
+  craftingMenuManager: {fileID: 0}
+  isNearWorkbench: 0
 --- !u!114 &7233396364444113374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,6 +319,7 @@ MonoBehaviour:
   worldItemPickupPrefab: {fileID: 926622700075438583, guid: 225340c95a59af748ae304d255d03341, type: 3}
   wandProjectilePrefab: {fileID: 1222908208336480367, guid: 181be1eb524807e448716fdc4ef5c6dc, type: 3}
   fireCooldown: 0.5
+  inventory: {fileID: 6424638694823071809}
   minDropDistance: 0.5
   maxDropDistance: 1.5
   jumpHeight: 1

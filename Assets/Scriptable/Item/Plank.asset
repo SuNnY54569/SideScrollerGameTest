@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5f00ce4bdb59c74f9b92740e6ea6d3d, type: 3}
-  m_Name: Rock
+  m_Name: Plank
   m_EditorClassIdentifier: 
-  itemName: Rock
-  icon: {fileID: -175167603, guid: 2727302dd8f0d7046a796a84d1a20cc8, type: 3}
-  maxStack: 2
+  itemName: Plank
+  icon: {fileID: 21300000, guid: 1181afefed62f564fb669c2d759629b0, type: 3}
+  maxStack: 20
   itemType: 0
   isStackable: 1
-  worldDisplayPrefab: {fileID: 2437265830974482913, guid: 1b5f7563469156742968ef323f2d56b1, type: 3}
+  worldDisplayPrefab: {fileID: 3533672079934350991, guid: 1a7d6c6b63ec465469eb601f0c97cab9, type: 3}

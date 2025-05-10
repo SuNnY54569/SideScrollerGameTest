@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f00ce4bdb59c74f9b92740e6ea6d3d, type: 3}
+  m_Name: Seed
+  m_EditorClassIdentifier: 
+  itemName: Seed
+  icon: {fileID: -235273172, guid: 971e3d9a131b4714d80f8c108fbf9796, type: 3}
+  maxStack: 20
+  itemType: 3
+  isStackable: 1
+  worldDisplayPrefab: {fileID: 2457072188204249050, guid: 01f11eff5b4bff241bc6bb405969f7b6, type: 3}

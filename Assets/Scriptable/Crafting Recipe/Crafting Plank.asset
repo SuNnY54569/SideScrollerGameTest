@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0699dcbb417a31428f2091fe2feb8fe, type: 3}
+  m_Name: Crafting Plank
+  m_EditorClassIdentifier: 
+  craftingType: 1
+  ingredients:
+  - {fileID: 11400000, guid: 9835ec95e3268f74fa7d571c1f21b063, type: 2}
+  ingredientAmounts: 02000000
+  result: {fileID: 11400000, guid: 3b446050420f2424e808dd8260c46031, type: 2}
+  resultAmount: 1

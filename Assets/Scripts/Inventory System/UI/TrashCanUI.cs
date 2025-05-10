@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class TrashCanUI : MonoBehaviour, IDropHandler
 {
+    
     public void OnDrop(PointerEventData eventData)
     {
         if (InventorySlotUI.HasActiveDrag())

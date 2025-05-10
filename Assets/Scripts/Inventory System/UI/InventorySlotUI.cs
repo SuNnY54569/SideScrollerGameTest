@@ -35,7 +35,7 @@ public class InventorySlotUI : MonoBehaviour,
         inventory = inv;
         quickBar = quick;
         slotIndex = index;
-        this.isQuickBarSlot = isQuickBar;
+        isQuickBarSlot = isQuickBar;
     }
     
     public void Set(InventoryItem item, int amount)
@@ -165,6 +165,7 @@ public class InventorySlotUI : MonoBehaviour,
         }
 
         slot.Clear();
+        FindObjectOfType<Inventory>().NotifyChange();
     }
     
     public static bool HasActiveDrag()
@@ -180,13 +181,9 @@ public class InventorySlotUI : MonoBehaviour,
         }
         else if (sourceQuickBar != null)
         {
-            var slot = sourceQuickBar.GetSlot(sourceSlotIndex);
-            if (slot != null)
-            {
-                slot.Clear();
-            }
+            sourceQuickBar.GetSlot(sourceSlotIndex).Clear();
         }
-
+        FindObjectOfType<Inventory>().NotifyChange();
         ClearDragData();
     }
     

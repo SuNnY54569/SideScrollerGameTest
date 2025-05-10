@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6964269807891668829}
-  - component: {fileID: 5042581750283665757}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
@@ -33,26 +32,6 @@ Transform:
   - {fileID: 5374565262386706119}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5042581750283665757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2437265830974482913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7149204cc4039724e84343f1cf436257, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetRenderer: {fileID: 3706082984914257102}
-  randomSprites:
-  - {fileID: 1174843840, guid: d17db23cc42d1264c8a3fe93fafc8990, type: 3}
-  - {fileID: 1650100189, guid: d17db23cc42d1264c8a3fe93fafc8990, type: 3}
-  - {fileID: -1965579496, guid: d17db23cc42d1264c8a3fe93fafc8990, type: 3}
-  - {fileID: 1409456677, guid: d17db23cc42d1264c8a3fe93fafc8990, type: 3}
-  - {fileID: 821808596, guid: d17db23cc42d1264c8a3fe93fafc8990, type: 3}
-  - {fileID: 530562328, guid: d17db23cc42d1264c8a3fe93fafc8990, type: 3}
 --- !u!1 &5189169139808512316
 GameObject:
   m_ObjectHideFlags: 0

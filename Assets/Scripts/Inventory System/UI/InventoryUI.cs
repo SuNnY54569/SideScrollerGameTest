@@ -12,9 +12,11 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private GameObject slotContainer;
     [SerializeField] private GameObject backgroundPanel;
     [SerializeField] private GameObject Trashcan;
+    [SerializeField] private GameObject craftingMenuPanel;
     
     private List<InventorySlotUI> slotUIs = new();
     private bool isOpened;
+    private CanvasGroup craftingCanvasGroup;
     private CanvasGroup canvasGroup;
     private CanvasGroup bgCanvasGroup;
     private Tween containerTween;
@@ -84,12 +86,21 @@ public class InventoryUI : MonoBehaviour
             canvasGroup = slotContainer.GetComponent<CanvasGroup>();
         if (bgCanvasGroup == null && backgroundPanel != null)
             bgCanvasGroup = backgroundPanel.GetComponent<CanvasGroup>();
+        if (craftingCanvasGroup == null && craftingMenuPanel != null)
+            craftingCanvasGroup = craftingMenuPanel.GetComponent<CanvasGroup>();
         
         if (isOpened)
         {
             slotContainer.transform.localScale = Vector3.zero;
             slotContainer.SetActive(true);
             backgroundPanel?.SetActive(true);
+            if (craftingMenuPanel != null)
+            {
+                craftingMenuPanel.transform.localScale = Vector3.zero;
+                craftingMenuPanel.SetActive(true);
+                craftingCanvasGroup?.DOFade(1f, 0.25f);
+                craftingMenuPanel.transform.DOScale(1f, 0.25f).SetEase(Ease.OutBack);
+            }
         
             containerTween?.Kill();
             containerTween = slotContainer.transform.DOScale(1f, 0.25f).SetEase(Ease.OutBack)
@@ -108,10 +119,21 @@ public class InventoryUI : MonoBehaviour
                 {
                     slotContainer.SetActive(false);
                     backgroundPanel?.SetActive(false);
+                    
+                    if (craftingMenuPanel != null)
+                    {
+                        craftingMenuPanel.transform.DOScale(0f, 0.2f)
+                            .SetEase(Ease.InBack)
+                            .OnComplete(() => craftingMenuPanel.SetActive(false));
+                        craftingCanvasGroup?.DOFade(0f, 0.2f);
+                    }
                 });
+            
+            
 
             canvasGroup?.DOFade(0f, 0.2f);
             bgCanvasGroup?.DOFade(0f, 0.2f);
         }
+        inventory.NotifyChange();
     }
 }

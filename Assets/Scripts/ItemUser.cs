@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ItemUser : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class ItemUser : MonoBehaviour
     public GameObject worldItemPickupPrefab;
     [SerializeField] private GameObject wandProjectilePrefab;
     [SerializeField] private float fireCooldown = 0.5f;
+    [SerializeField] private Inventory inventory;
     private float lastFireTime = -Mathf.Infinity;
     
     [Header("Drop Animation Settings")]
@@ -18,7 +21,15 @@ public class ItemUser : MonoBehaviour
     [SerializeField] private float maxDropDistance = 1.5f;
     [SerializeField] private float jumpHeight = 1f;
     [SerializeField] private float jumpDuration = 0.5f;
-    
+
+    private void Awake()
+    {
+        if (inventory == null)
+        {
+            inventory.GetComponent<Inventory>();
+        }
+    }
+
     private void Update()
     {
         if (Input.GetButtonDown("Jump"))
@@ -50,6 +61,7 @@ public class ItemUser : MonoBehaviour
 
         SpawnWorldItem(slot.item, slot.amount, Vector3.one * 0.5f);
         slot.Clear();
+        inventory.OnInventoryChanged.Invoke();
     }
     
     public void SpawnWorldItem(InventoryItem item, int amount,  Vector3 customScale)

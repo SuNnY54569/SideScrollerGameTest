@@ -72,7 +72,7 @@ public class WorldItemPickup : MonoBehaviour
             
             if (!success)
             {
-                success = playerInventory.AddItem(item, quantity);
+                success = playerInventory.TryMergeOrAddItem(item, quantity);
             }
 
             if (success)

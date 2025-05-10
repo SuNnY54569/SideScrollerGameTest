@@ -6,9 +6,13 @@ public class PlayerHandDisplay : MonoBehaviour
 {
     [SerializeField] private Transform handAnchor; // Empty GameObject as placement
     private GameObject currentDisplay;
+    private InventoryItem currentItem;
 
     public void DisplayItem(InventoryItem item)
     {
+        if (currentItem == item)
+            return;
+        
         ClearDisplay();
 
         if (item != null && item.worldDisplayPrefab != null)
@@ -16,6 +20,11 @@ public class PlayerHandDisplay : MonoBehaviour
             currentDisplay = Instantiate(item.worldDisplayPrefab, handAnchor);
             currentDisplay.transform.localPosition = Vector3.zero;
             currentDisplay.transform.localRotation = Quaternion.identity;
+            currentItem = item; 
+        }
+        else
+        {
+            currentItem = null;
         }
     }
 
@@ -24,6 +33,9 @@ public class PlayerHandDisplay : MonoBehaviour
         if (currentDisplay != null)
         {
             Destroy(currentDisplay);
+            currentDisplay = null;
         }
+
+        currentItem = null;
     }
 }

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f00ce4bdb59c74f9b92740e6ea6d3d, type: 3}
+  m_Name: Rock
+  m_EditorClassIdentifier: 
+  itemName: Rock
+  icon: {fileID: -175167603, guid: 2727302dd8f0d7046a796a84d1a20cc8, type: 3}
+  maxStack: 10
+  itemType: 0
+  isStackable: 1
+  worldDisplayPrefab: {fileID: 2437265830974482913, guid: 1b5f7563469156742968ef323f2d56b1, type: 3}

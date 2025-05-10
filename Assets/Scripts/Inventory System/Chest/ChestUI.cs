@@ -10,7 +10,8 @@ public class ChestUI : MonoBehaviour
     [SerializeField] private GameObject chestPanel;
     [SerializeField] private GameObject slotPrefab;
     [SerializeField] private Transform slotContainer;
-    
+
+    private CanvasGroup canvasGroup;
     private List<InventorySlotUI> slotUIs = new();
     private Inventory currentChestInventory;
     private Tween panelTween;
@@ -23,6 +24,11 @@ public class ChestUI : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+        canvasGroup = chestPanel.GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = chestPanel.AddComponent<CanvasGroup>();
+        }
 
         chestPanel.SetActive(false);
     }
@@ -45,8 +51,11 @@ public class ChestUI : MonoBehaviour
 
         chestPanel.SetActive(true);
         chestPanel.transform.localScale = Vector3.zero;
+        canvasGroup.alpha = 0;
+
         panelTween?.Kill();
         panelTween = chestPanel.transform.DOScale(1f, 0.25f).SetEase(Ease.OutBack);
+        canvasGroup.DOFade(1f, 0.25f);
 
         PrepareSlots();
         currentChestInventory.OnInventoryChanged.AddListener(UpdateUI);
@@ -70,6 +79,7 @@ public class ChestUI : MonoBehaviour
                 chestPanel.SetActive(false);
                 currentChestInventory = null;
             });
+        canvasGroup.DOFade(0f, 0.2f);
     }
     
     private void PrepareSlots()

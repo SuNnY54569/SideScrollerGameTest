@@ -10,9 +10,9 @@ public class ChestTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        Chest chest = GetComponent<Chest>();
+        if (chest != null)
         {
-            playerInRange = true;
             ChestManager.Instance.OpenChest(chest);
         }
     }
@@ -21,8 +21,10 @@ public class ChestTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            playerInRange = false;
-            ChestManager.Instance.CloseChest();
+            if (ChestManager.Instance.IsChestOpen())
+            {
+                ChestManager.Instance.CloseChest();
+            }
         }
     }
 }

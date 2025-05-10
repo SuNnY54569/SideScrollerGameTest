@@ -18,13 +18,26 @@ public class ChestManager : MonoBehaviour
 
     public void OpenChest(Chest chest)
     {
-        playerInventoryUI?.OpenInventory();
-        chestUI?.Open(chest);
+        currentChest = chest;
+        InventoryUI inventoryUI = FindObjectOfType<InventoryUI>();
+        if (inventoryUI != null)
+        {
+            inventoryUI.ToggleInventory();
+        }
     }
 
     public void CloseChest()
     {
-        playerInventoryUI?.CloseInventory();
-        chestUI?.Close();
+        currentChest = null;
+    }
+
+    public Chest GetCurrentChest()
+    {
+        return currentChest;
+    }
+
+    public bool IsChestOpen()
+    {
+        return currentChest != null;
     }
 }

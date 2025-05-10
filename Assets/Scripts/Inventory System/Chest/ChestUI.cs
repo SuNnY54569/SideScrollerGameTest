@@ -1,48 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ChestUI : MonoBehaviour
 {
-    public static ChestUI Instance { get; private set; }
-
-    [SerializeField] private GameObject chestPanel;
     [SerializeField] private GameObject slotPrefab;
     [SerializeField] private Transform slotContainer;
+    [SerializeField] private GameObject panel;
 
     private List<InventorySlotUI> slotUIs = new();
-    private Chest currentChest;
+    private Inventory chestInventory;
 
-    private void Awake()
+    public void Open(Inventory inventory)
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
-
-        chestPanel.SetActive(false);
-    }
-
-    public void Open(Chest chest)
-    {
-        ClearUI();
-        currentChest = chest;
-        chestPanel.SetActive(true);
-
-        foreach (var slot in currentChest.chestInventory.slots)
-        {
-            GameObject slotGO = Instantiate(slotPrefab, slotContainer);
-            var slotUI = slotGO.GetComponent<InventorySlotUI>();
-            slotUI.Initialize(currentChest.chestInventory, null, currentChest.chestInventory.slots.IndexOf(slot));
-            slotUIs.Add(slotUI);
-        }
+        chestInventory = inventory;
+        panel.SetActive(true);
+        RefreshUI();
     }
 
     public void Close()
     {
         ClearUI();
-        chestPanel.SetActive(false);
-        currentChest = null;
+        panel.SetActive(false);
+    }
+
+    private void RefreshUI()
+    {
+        ClearUI();
+        for (int i = 0; i < chestInventory.slots.Count; i++)
+        {
+            GameObject slotGO = Instantiate(slotPrefab, slotContainer);
+            InventorySlotUI slotUI = slotGO.GetComponent<InventorySlotUI>();
+            slotUI.Initialize(chestInventory, null, i);
+            slotUIs.Add(slotUI);
+        }
     }
 
     private void ClearUI()

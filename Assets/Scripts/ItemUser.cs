@@ -10,10 +10,10 @@ public class ItemUser : MonoBehaviour
     [Header("References")]
     [SerializeField] private QuickBar quickBar;
     [SerializeField] private ArcanePower arcanePower;
-    public GameObject worldItemPickupPrefab;
     [SerializeField] private GameObject wandProjectilePrefab;
     [SerializeField] private float fireCooldown = 0.5f;
     [SerializeField] private Inventory inventory;
+    public GameObject worldItemPickupPrefab;
     private float lastFireTime = -Mathf.Infinity;
     
     [Header("Drop Animation Settings")]

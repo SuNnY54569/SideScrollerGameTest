@@ -5,11 +5,11 @@ using UnityEngine;
 public class ChestTrigger : MonoBehaviour
 {
     private bool playerInRange = false;
-    private Chest chest;
+    private Inventory chestInventory;
 
     private void Awake()
     {
-        chest = GetComponent<Chest>();
+        chestInventory = GetComponent<Inventory>();
     }
 
     private void Update()
@@ -19,7 +19,7 @@ public class ChestTrigger : MonoBehaviour
             if (ChestUI.Instance.gameObject.activeSelf)
                 ChestUI.Instance.Close();
             else
-                ChestUI.Instance.Open(chest);
+                ChestUI.Instance.Open(chestInventory);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape) && ChestUI.Instance.gameObject.activeSelf)

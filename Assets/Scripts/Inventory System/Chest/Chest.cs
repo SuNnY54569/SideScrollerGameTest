@@ -5,7 +5,5 @@ using UnityEngine;
 public class Chest : MonoBehaviour
 {
     public Inventory chestInventory;
-
-    [SerializeField] private int chestSlotCount = 16;
     
 }

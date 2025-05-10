@@ -9,9 +9,11 @@ public class ChestUI : MonoBehaviour
     [SerializeField] private GameObject chestPanel;
     [SerializeField] private GameObject slotPrefab;
     [SerializeField] private Transform slotContainer;
-
+    
     private List<InventorySlotUI> slotUIs = new();
-    private Chest currentChest;
+    private Inventory currentChestInventory;
+    
+    public bool IsOpen => chestPanel.activeSelf;
 
     private void Awake()
     {
@@ -25,23 +27,23 @@ public class ChestUI : MonoBehaviour
     
     private void Update()
     {
-        if (currentChest == null) return;
+        if (currentChestInventory == null) return;
 
-        for (int i = 0; i < currentChest.chestInventory.slots.Count; i++)
+        for (int i = 0; i < currentChestInventory.slots.Count; i++)
         {
-            var slot = currentChest.chestInventory.slots[i];
+            var slot = currentChestInventory.slots[i];
             slotUIs[i].Set(slot.item, slot.amount);
         }
     }
 
-    public void Open(Chest chest)
+    public void Open(Inventory chestInventory)
     {
         ClearUI();
-        currentChest = chest;
+        currentChestInventory = chestInventory;
         chestPanel.SetActive(true);
 
         PrepareSlots();
-        currentChest.chestInventory.OnInventoryChanged.AddListener(UpdateUI);
+        currentChestInventory.OnInventoryChanged.AddListener(UpdateUI);
 
         InventoryUI.Instance.ForceOpen(); // Ensure player inventory is open too
         
@@ -50,26 +52,26 @@ public class ChestUI : MonoBehaviour
 
     public void Close()
     {
-        if (currentChest != null)
+        if (currentChestInventory != null)
         {
-            currentChest.chestInventory.OnInventoryChanged.RemoveListener(UpdateUI);
+            currentChestInventory.OnInventoryChanged.RemoveListener(UpdateUI);
         }
         
         InventoryUI.Instance.ForceClose();
         chestPanel.SetActive(false);
-        currentChest = null;
+        currentChestInventory = null;
     }
     
     private void PrepareSlots()
     {
-        if (slotUIs.Count == currentChest.chestInventory.slots.Count) return;
+        if (slotUIs.Count == currentChestInventory.slots.Count) return;
 
         ClearUI();
-        for (int i = 0; i < currentChest.chestInventory.slots.Count; i++)
+        for (int i = 0; i < currentChestInventory.slots.Count; i++)
         {
             GameObject slotGO = Instantiate(slotPrefab, slotContainer);
             var slotUI = slotGO.GetComponent<InventorySlotUI>();
-            slotUI.Initialize(currentChest.chestInventory, null, i);
+            slotUI.Initialize(currentChestInventory, null, i);
             slotUIs.Add(slotUI);
         }
     }
@@ -79,7 +81,7 @@ public class ChestUI : MonoBehaviour
         // Refresh slotUIs based on current chestInventory
         for (int i = 0; i < slotUIs.Count; i++)
         {
-            var slot = currentChest.chestInventory.slots[i];
+            var slot = currentChestInventory.slots[i];
             slotUIs[i].Set(slot.item, slot.amount);
         }
     }

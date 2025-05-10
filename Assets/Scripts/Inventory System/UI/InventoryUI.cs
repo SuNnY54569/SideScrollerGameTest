@@ -16,9 +16,9 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private GameObject Trashcan;
     [SerializeField] private GameObject craftingMenuPanel;
     
-    public bool IsOpened => isOpened;
     private List<InventorySlotUI> slotUIs = new();
     private bool isOpened;
+    private bool isForceOpened;
     private CanvasGroup craftingCanvasGroup;
     private CanvasGroup canvasGroup;
     private CanvasGroup bgCanvasGroup;
@@ -54,6 +54,13 @@ public class InventoryUI : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape))
         {
+            if (ChestUI.Instance != null && ChestUI.Instance.IsOpen)
+            {
+                // Prevent closing while chest is open
+                return;
+            }
+
+            
             ToggleInventory();
         }
     }
@@ -80,6 +87,8 @@ public class InventoryUI : MonoBehaviour
     
     public void ToggleInventory()
     {
+        if (ChestUI.Instance.IsOpen) return;
+        
         if (isOpened)
             CloseInventory();
         else
@@ -112,18 +121,20 @@ public class InventoryUI : MonoBehaviour
             canvasGroup = slotContainer.GetComponent<CanvasGroup>();
         if (bgCanvasGroup == null && backgroundPanel != null)
             bgCanvasGroup = backgroundPanel.GetComponent<CanvasGroup>();
-        if (craftingCanvasGroup == null && craftingMenuPanel != null)
-            craftingCanvasGroup = craftingMenuPanel.GetComponent<CanvasGroup>();
+        if (!isForceOpened)
+        {
+            if (craftingCanvasGroup == null && craftingMenuPanel != null)
+                craftingCanvasGroup = craftingMenuPanel.GetComponent<CanvasGroup>();
+        }
 
         slotContainer.transform.localScale = Vector3.zero;
         slotContainer.SetActive(true);
         backgroundPanel?.SetActive(true);
-        if (craftingMenuPanel != null)
-        {
-            craftingMenuPanel.transform.localScale = Vector3.zero;
-            craftingMenuPanel.SetActive(true);
-        }
         
+        if (craftingMenuPanel == null || isForceOpened) return;
+        craftingMenuPanel.transform.localScale = Vector3.zero;
+        craftingMenuPanel.SetActive(true);
+
     }
     
     private void AnimateOpen()
@@ -134,7 +145,8 @@ public class InventoryUI : MonoBehaviour
 
         canvasGroup?.DOFade(1f, 0.25f);
         bgCanvasGroup?.DOFade(1f, 0.25f);
-        
+
+        if (isForceOpened) return;
         craftingCanvasGroup?.DOFade(1f, 0.25f);
         craftingMenuPanel.transform.DOScale(1f, 0.25f).SetEase(Ease.OutBack);
     }
@@ -154,6 +166,7 @@ public class InventoryUI : MonoBehaviour
         canvasGroup?.DOFade(0f, 0.2f);
         bgCanvasGroup?.DOFade(0f, 0.2f);
         
+        if (isForceOpened) return;
         if (craftingMenuPanel != null)
         {
             craftingMenuPanel.transform.DOScale(0f, 0.2f)
@@ -171,11 +184,20 @@ public class InventoryUI : MonoBehaviour
     
     public void ForceOpen()
     {
-        if (!isOpened) OpenInventory();
+        if (!isOpened)
+        {
+            isForceOpened = true;
+            OpenInventory();
+        }
+        
     }
     
     public void ForceClose()
     {
-        if (isOpened) CloseInventory();
+        if (isOpened)
+        {
+            CloseInventory();
+            isForceOpened = false;
+        }
     }
 }

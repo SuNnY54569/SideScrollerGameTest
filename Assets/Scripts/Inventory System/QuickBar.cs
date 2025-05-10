@@ -5,6 +5,7 @@ using UnityEngine;
 public class QuickBar : MonoBehaviour
 {
     [SerializeField] private Inventory playerInventory;
+    [SerializeField] private PlayerHandDisplay playerHandDisplay;
     [SerializeField] private int quickBarSize = 8;
 
     public int QuickBarSize => quickBarSize;
@@ -29,6 +30,9 @@ public class QuickBar : MonoBehaviour
         if (index >= 0 && index < quickBarSize)
         {
             SelectedIndex = index;
+            var selectedSlot = GetSelectedSlot();
+            playerHandDisplay?.DisplayItem(selectedSlot?.item);
         }
+        
     }
 }

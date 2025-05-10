@@ -17,3 +17,4 @@ MonoBehaviour:
   maxStack: 1
   itemType: 1
   isStackable: 0
+  worldDisplayPrefab: {fileID: 8112211491965015050, guid: 7c8f8bdee44857a40ab821156c9c4bed, type: 3}

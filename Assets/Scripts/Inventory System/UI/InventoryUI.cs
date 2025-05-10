@@ -11,6 +11,7 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private GameObject slotPrefab;
     [SerializeField] private GameObject slotContainer;
     [SerializeField] private GameObject backgroundPanel;
+    [SerializeField] private GameObject Trashcan;
     
     private List<InventorySlotUI> slotUIs = new();
     private bool isOpened;
@@ -41,7 +42,7 @@ public class InventoryUI : MonoBehaviour
     {
         UpdateUI();
         
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape))
         {
             OpenCloseInventory();
         }
@@ -66,41 +67,51 @@ public class InventoryUI : MonoBehaviour
             slotUIs[i].Set(slot.item, slot.amount);
         }
     }
+    
+    private void PauseGame(bool pause)
+    {
+        Time.timeScale = pause ? 0f : 1f;
+        Debug.Log("pause");
+    }
 
     public void OpenCloseInventory()
     {
         isOpened = !isOpened;
+        
+        if (slotContainer == null) return;
+
+        if (canvasGroup == null)
+            canvasGroup = slotContainer.GetComponent<CanvasGroup>();
+        if (bgCanvasGroup == null && backgroundPanel != null)
+            bgCanvasGroup = backgroundPanel.GetComponent<CanvasGroup>();
+        
         if (isOpened)
         {
-            if (slotContainer == null) return;
-
-            if (canvasGroup == null)
-                canvasGroup = slotContainer.GetComponent<CanvasGroup>();
-            if (bgCanvasGroup == null && backgroundPanel != null)
-                bgCanvasGroup = backgroundPanel.GetComponent<CanvasGroup>();
-
             slotContainer.transform.localScale = Vector3.zero;
             slotContainer.SetActive(true);
             backgroundPanel?.SetActive(true);
         
             containerTween?.Kill();
-            containerTween = slotContainer.transform.DOScale(1f, 0.25f).SetEase(Ease.OutBack);
+            containerTween = slotContainer.transform.DOScale(1f, 0.25f).SetEase(Ease.OutBack)
+                .OnComplete(() => PauseGame(true));;
 
             canvasGroup?.DOFade(1f, 0.25f);
             bgCanvasGroup?.DOFade(1f, 0.25f);
         }
         else
         {
-            if (slotContainer == null) return;
-
+            PauseGame(false);
             containerTween?.Kill();
             containerTween = slotContainer.transform.DOScale(0f, 0.2f)
                 .SetEase(Ease.InBack)
-                .OnComplete(() => slotContainer.SetActive(false));
+                .OnComplete(() => 
+                {
+                    slotContainer.SetActive(false);
+                    backgroundPanel?.SetActive(false);
+                });
 
             canvasGroup?.DOFade(0f, 0.2f);
-            bgCanvasGroup?.DOFade(0f, 0.2f)
-                .OnComplete(() => backgroundPanel?.SetActive(false));
+            bgCanvasGroup?.DOFade(0f, 0.2f);
         }
     }
 }

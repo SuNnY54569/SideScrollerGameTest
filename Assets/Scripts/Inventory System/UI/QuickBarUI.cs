@@ -59,9 +59,6 @@ public class QuickBarUI : MonoBehaviour
                 quickBar.SetSelectedIndex(i);
             }
         }
-        
-        var selectedSlot = quickBar.GetSelectedSlot();
-        playerHandDisplay?.DisplayItem(selectedSlot?.item);
     }
     
     private void HandleScrollInput()

@@ -10,6 +10,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private int maxHP = 100;
     [SerializeField] private int currentHP;
     [SerializeField] private Color hitColor = Color.red;
+    [SerializeField] private int healthGeneratePerPeriod = 25;
     
     [Header("Stun Settings")]
     [SerializeField] private GameObject stunEffectPrefab;
@@ -49,7 +50,7 @@ public class PlayerHealth : MonoBehaviour
 
         if (currentHP <= 0)
         {
-            Debug.Log("Player died");
+            Die();
         }
         
         if (isStunned) return;
@@ -97,10 +98,23 @@ public class PlayerHealth : MonoBehaviour
 
         isStunned = false;
     }
+
+    public void Die()
+    {
+        Debug.Log("Player Die");
+        ResetHealth();
+    }
     
     public void ResetHealth()
     {
         currentHP = maxHP;
+        OnHealthChanged?.Invoke(currentHP);
+    }
+    
+    public void RegenerateHealth()
+    {
+        currentHP += healthGeneratePerPeriod;
+        currentHP = Mathf.Min(currentHP, maxHP);
         OnHealthChanged?.Invoke(currentHP);
     }
 }

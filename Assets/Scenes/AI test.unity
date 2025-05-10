@@ -435,6 +435,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1315529351 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1002589078231421007, guid: 40caa8d25dc44c84bb374cef2f145adb, type: 3}
+  m_PrefabInstance: {fileID: 1421889845}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00ba1024fbeb1544a93ca2f1ee4bb408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1315529353 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2507010196526217762, guid: 40caa8d25dc44c84bb374cef2f145adb, type: 3}
+  m_PrefabInstance: {fileID: 1421889845}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 329b116e3f3987445ac50c9f8bc5f2da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1337677147
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1411,6 +1433,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 258689274450471252, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: inventory
+      value: 
+      objectReference: {fileID: 44962422}
+    - target: {fileID: 258689274450471252, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: craftingManager
+      value: 
+      objectReference: {fileID: 1315529353}
     - target: {fileID: 591138791202195825, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1423,6 +1453,10 @@ PrefabInstance:
       propertyPath: quickBar
       value: 
       objectReference: {fileID: 44962421}
+    - target: {fileID: 2654626014876568549, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: playerHandDisplay
+      value: 
+      objectReference: {fileID: 1315529351}
     - target: {fileID: 3106614115675480452, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1604,6 +1638,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 633325284007795762, guid: 225340c95a59af748ae304d255d03341, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9470acdda3b9332468e4864ef4968d78, type: 3}
+    - target: {fileID: 633325284007795762, guid: 225340c95a59af748ae304d255d03341, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 633325284007795762, guid: 225340c95a59af748ae304d255d03341, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 633325284007795762, guid: 225340c95a59af748ae304d255d03341, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 633325284007795762, guid: 225340c95a59af748ae304d255d03341, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 633325284007795762, guid: 225340c95a59af748ae304d255d03341, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 926622700075438583, guid: 225340c95a59af748ae304d255d03341, type: 3}
       propertyPath: m_Name
       value: Pickup_Wand
@@ -1648,6 +1706,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4583349788804639412, guid: 225340c95a59af748ae304d255d03341, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 11400000, guid: a589975cf7e34b94790f7c992c39d12e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

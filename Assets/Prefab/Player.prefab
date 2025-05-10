@@ -227,6 +227,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 0
   hitColor: {r: 1, g: 0, b: 0, a: 1}
+  healthGeneratePerPeriod: 25
   stunEffectPrefab: {fileID: 171664211560319003, guid: 576dad088217f9b4ab890e9827c96198, type: 3}
   stunEffectPos: {fileID: 8390017859609437273}
   OnHealthChanged:
@@ -266,7 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7a890a6f98b44a4097f9e4f0a202eb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalSlotCount: 24
+  totalSlotCount: 16
   slots: []
   OnInventoryChanged:
     m_PersistentCalls:

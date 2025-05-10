@@ -14,6 +14,11 @@ public class QuickBarUI : MonoBehaviour
 
     private void Awake()
     {
+        if (playerHandDisplay == null)
+        {
+            playerHandDisplay = FindObjectOfType<PlayerHandDisplay>();
+        }
+        
         if (quickBar == null)
         {
             quickBar = FindObjectOfType<QuickBar>();

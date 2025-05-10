@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 1069522667, guid: f38899f0742a347439d3c066a1ef81a3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -343,7 +343,7 @@ MonoBehaviour:
   attackRange: 1.5
   attackCooldown: 3
   attackDamage: 10
-  attackRangeoffset: {x: 0, y: 0.45, z: 0}
+  attackRangeOffset: {x: 0, y: 0, z: 0}
   knockbackDistance: 2
   knockbackDuration: 0.4
   stunDuration: 1

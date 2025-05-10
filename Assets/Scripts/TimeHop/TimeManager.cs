@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,13 +15,22 @@ public class TimeManager : MonoBehaviour
     
     [Header("Settings")]
     [SerializeField] private float timeStepDuration = 10f;
+    [SerializeField] private PlayerHealth playerHealth;
     
     [Header("Events")]
     public UnityEvent<TimeOfDay> OnTimeChanged;
     public UnityEvent<DayOfWeek, int> OnDayChanged;
     
     private float timer;
-    
+
+    private void Awake()
+    {
+        if (playerHealth == null)
+        {
+            playerHealth = FindObjectOfType<PlayerHealth>();
+        }
+    }
+
     private void Update()
     {
         timer += Time.deltaTime;
@@ -50,6 +60,12 @@ public class TimeManager : MonoBehaviour
         CurrentTimeProgress = 0f;
         timer = 0f;
         OnTimeChanged?.Invoke(CurrentTime);
+        
+        if (playerHealth != null)
+        {
+            playerHealth.RegenerateHealth();
+        }
+        
         Debug.Log($"Time changed to: {CurrentTime}, Day: {CurrentDay} (Total Days: {DayCount + 1})");
     }
 }

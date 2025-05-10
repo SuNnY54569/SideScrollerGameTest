@@ -18,5 +18,7 @@ public class InventoryItem : ScriptableObject
     public int maxStack = 10;
     public ItemType itemType;
     public bool isStackable = true;
+    public bool isPlaceable = false;
     public GameObject worldDisplayPrefab;
+    public GameObject placeablePrefab;
 }

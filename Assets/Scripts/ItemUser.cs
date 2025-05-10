@@ -47,11 +47,26 @@ public class ItemUser : MonoBehaviour
     {
         var slot = quickBar.GetSelectedSlot();
         if (slot == null || slot.IsEmpty) return;
+        var item = slot.item;
+        
+        if (item.placeablePrefab != null)
+        {
+            PlaceObject(item, slot);
+            return;
+        }
 
-        if (slot.item.itemName == "Wand") // You can improve this later with item types
+        if (item.itemName == "Wand") // You can improve this later with item types
         {
             FireProjectile();
         }
+    }
+    
+    private void PlaceObject(InventoryItem item, InventorySlot slot)
+    {
+        Vector3 placePosition = transform.position;
+        Instantiate(item.placeablePrefab, placePosition, Quaternion.identity);
+
+        slot.RemoveItem(1);
     }
     
     public void DropSelectedItem()

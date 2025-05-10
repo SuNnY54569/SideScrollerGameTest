@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
 {
+    public static InventoryUI Instance { get; private set; }
+    
     [SerializeField] private Inventory inventory;
     [SerializeField] private QuickBar quickBar;
     [SerializeField] private GameObject slotPrefab;
@@ -20,9 +22,17 @@ public class InventoryUI : MonoBehaviour
     private CanvasGroup canvasGroup;
     private CanvasGroup bgCanvasGroup;
     private Tween containerTween;
+    
+    public event Action OnInventoryOpened;
+    public event Action OnInventoryClosed;
 
     private void Awake()
     {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+        
         if (inventory == null)
         {
             inventory = FindObjectOfType<Inventory>();
@@ -46,7 +56,7 @@ public class InventoryUI : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape))
         {
-            OpenCloseInventory();
+            ToggleInventory();
         }
     }
 
@@ -70,16 +80,36 @@ public class InventoryUI : MonoBehaviour
         }
     }
     
-    private void PauseGame(bool pause)
+    public void ToggleInventory()
     {
-        Time.timeScale = pause ? 0f : 1f;
-        Debug.Log("pause");
+        if (isOpened)
+            CloseInventory();
+        else
+            OpenInventory();
+        inventory.NotifyChange();
     }
-
-    public void OpenCloseInventory()
+    
+    public void OpenInventory()
     {
-        isOpened = !isOpened;
-        
+        if (isOpened) return;
+        isOpened = true;
+
+        PrepareUI();
+        AnimateOpen();
+        OnInventoryOpened?.Invoke();
+    }
+    
+    public void CloseInventory()
+    {
+        if (!isOpened) return;
+        isOpened = false;
+
+        AnimateClose();
+        OnInventoryClosed?.Invoke();
+    }
+    
+    private void PrepareUI()
+    {
         if (slotContainer == null) return;
 
         if (canvasGroup == null)
@@ -88,52 +118,58 @@ public class InventoryUI : MonoBehaviour
             bgCanvasGroup = backgroundPanel.GetComponent<CanvasGroup>();
         if (craftingCanvasGroup == null && craftingMenuPanel != null)
             craftingCanvasGroup = craftingMenuPanel.GetComponent<CanvasGroup>();
-        
-        if (isOpened)
+
+        slotContainer.transform.localScale = Vector3.zero;
+        slotContainer.SetActive(true);
+        backgroundPanel?.SetActive(true);
+        if (craftingMenuPanel != null)
         {
-            slotContainer.transform.localScale = Vector3.zero;
-            slotContainer.SetActive(true);
-            backgroundPanel?.SetActive(true);
-            if (craftingMenuPanel != null)
+            craftingMenuPanel.transform.localScale = Vector3.zero;
+            craftingMenuPanel.SetActive(true);
+        }
+        
+    }
+    
+    private void AnimateOpen()
+    {
+        containerTween?.Kill();
+        containerTween = slotContainer.transform.DOScale(1f, 0.25f).SetEase(Ease.OutBack)
+            .OnComplete(() => PauseGame(true));;
+
+        canvasGroup?.DOFade(1f, 0.25f);
+        bgCanvasGroup?.DOFade(1f, 0.25f);
+        
+        craftingCanvasGroup?.DOFade(1f, 0.25f);
+        craftingMenuPanel.transform.DOScale(1f, 0.25f).SetEase(Ease.OutBack);
+    }
+    
+    private void AnimateClose()
+    {
+        PauseGame(false);
+        containerTween?.Kill();
+        containerTween = slotContainer.transform.DOScale(0f, 0.2f)
+            .SetEase(Ease.InBack)
+            .OnComplete(() =>
             {
-                craftingMenuPanel.transform.localScale = Vector3.zero;
-                craftingMenuPanel.SetActive(true);
-                craftingCanvasGroup?.DOFade(1f, 0.25f);
-                craftingMenuPanel.transform.DOScale(1f, 0.25f).SetEase(Ease.OutBack);
-            }
+                slotContainer.SetActive(false);
+                backgroundPanel?.SetActive(false);
+            });
+
+        canvasGroup?.DOFade(0f, 0.2f);
+        bgCanvasGroup?.DOFade(0f, 0.2f);
         
-            containerTween?.Kill();
-            containerTween = slotContainer.transform.DOScale(1f, 0.25f).SetEase(Ease.OutBack)
-                .OnComplete(() => PauseGame(true));;
-
-            canvasGroup?.DOFade(1f, 0.25f);
-            bgCanvasGroup?.DOFade(1f, 0.25f);
-        }
-        else
+        if (craftingMenuPanel != null)
         {
-            PauseGame(false);
-            containerTween?.Kill();
-            containerTween = slotContainer.transform.DOScale(0f, 0.2f)
+            craftingMenuPanel.transform.DOScale(0f, 0.2f)
                 .SetEase(Ease.InBack)
-                .OnComplete(() => 
-                {
-                    slotContainer.SetActive(false);
-                    backgroundPanel?.SetActive(false);
-                    
-                    if (craftingMenuPanel != null)
-                    {
-                        craftingMenuPanel.transform.DOScale(0f, 0.2f)
-                            .SetEase(Ease.InBack)
-                            .OnComplete(() => craftingMenuPanel.SetActive(false));
-                        craftingCanvasGroup?.DOFade(0f, 0.2f);
-                    }
-                });
-            
-            
-
-            canvasGroup?.DOFade(0f, 0.2f);
-            bgCanvasGroup?.DOFade(0f, 0.2f);
+                .OnComplete(() => craftingMenuPanel.SetActive(false));
+            craftingCanvasGroup?.DOFade(0f, 0.2f);
         }
-        inventory.NotifyChange();
+    }
+    
+    private void PauseGame(bool pause)
+    {
+        Time.timeScale = pause ? 0f : 1f;
+        Debug.Log("pause");
     }
 }

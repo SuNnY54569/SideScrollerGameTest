@@ -10,6 +10,17 @@ public class Inventory : MonoBehaviour
     public List<InventorySlot> slots = new();
     
     public UnityEvent OnInventoryChanged = new UnityEvent();
+    
+    public Inventory() { }
+    
+    public Inventory(int customSlotCount)
+    {
+        slots = new List<InventorySlot>();
+        for (int i = 0; i < customSlotCount; i++)
+        {
+            slots.Add(new InventorySlot());
+        }
+    }
 
     private void Awake()
     {

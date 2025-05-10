@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5f00ce4bdb59c74f9b92740e6ea6d3d, type: 3}
-  m_Name: Chest
+  m_Name: CraftingTable
   m_EditorClassIdentifier: 
-  itemName: Chest
-  icon: {fileID: -3708064732922258302, guid: 1b39c0fe73f0433468e25eb21cfde7c2, type: 3}
+  itemName: Crafting Table
+  icon: {fileID: -579078039, guid: 2727302dd8f0d7046a796a84d1a20cc8, type: 3}
   maxStack: 1
   itemType: 2
   isStackable: 0
-  isPlaceable: 0
-  worldDisplayPrefab: {fileID: 6755507513883012568, guid: 52fdfd593cc44c3428cf4e07136a8210, type: 3}
-  placeablePrefab: {fileID: 7187190180229081834, guid: 35a21b27b5c7b51479495c7fc1a46101, type: 3}
+  isPlaceable: 1
+  worldDisplayPrefab: {fileID: 4075345249478768877, guid: 4c5c010e23626564e8f93627e3c91b93, type: 3}
+  placeablePrefab: {fileID: 5807779254976025007, guid: 7e03a83d4f9a22a459e7c9fa36afe008, type: 3}

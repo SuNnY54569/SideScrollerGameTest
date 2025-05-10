@@ -115,27 +115,26 @@ public class InventorySlotUI : MonoBehaviour,
             ? quickBar.GetSlot(slotIndex)
             : inventory.slots[slotIndex];
         
-        InventoryItem oldItem = destinationSlot.item;
-        int oldAmount = destinationSlot.amount;
-        
-        destinationSlot.item = draggedItem;
-        destinationSlot.amount = draggedAmount;
-        
-        if (sourceInventory != null)
+        if (destinationSlot.item == draggedItem && destinationSlot.item.isStackable)
         {
-            sourceInventory.slots[sourceSlotIndex].item = oldItem;
-            sourceInventory.slots[sourceSlotIndex].amount = oldAmount;
-        }
-        else if (sourceQuickBar != null)
-        {
-            var sourceSlot = sourceQuickBar.GetSlot(sourceSlotIndex);
-            if (sourceSlot != null)
+            int spaceLeft = destinationSlot.item.maxStack - destinationSlot.amount;
+
+            if (spaceLeft > 0)
             {
-                sourceSlot.item = oldItem;
-                sourceSlot.amount = oldAmount;
+                int toAdd = Mathf.Min(draggedAmount, spaceLeft);
+                destinationSlot.amount += toAdd;
+                draggedAmount -= toAdd;
+
+                if (draggedAmount <= 0)
+                {
+                    DeleteDraggedItem();
+                    ClearDragData();
+                    return;
+                }
             }
         }
-        
+
+        SwapSlots(destinationSlot);
         ClearDragData();
     }
     
@@ -194,6 +193,30 @@ public class InventorySlotUI : MonoBehaviour,
         sourceInventory = null;
         sourceQuickBar = null;
         sourceSlotIndex = -1;
+    }
+    
+    private void SwapSlots(InventorySlot destinationSlot)
+    {
+        InventoryItem oldItem = destinationSlot.item;
+        int oldAmount = destinationSlot.amount;
+
+        destinationSlot.item = draggedItem;
+        destinationSlot.amount = draggedAmount;
+
+        if (sourceInventory != null)
+        {
+            sourceInventory.slots[sourceSlotIndex].item = oldItem;
+            sourceInventory.slots[sourceSlotIndex].amount = oldAmount;
+        }
+        else if (sourceQuickBar != null)
+        {
+            var sourceSlot = sourceQuickBar.GetSlot(sourceSlotIndex);
+            if (sourceSlot != null)
+            {
+                sourceSlot.item = oldItem;
+                sourceSlot.amount = oldAmount;
+            }
+        }
     }
 
 }

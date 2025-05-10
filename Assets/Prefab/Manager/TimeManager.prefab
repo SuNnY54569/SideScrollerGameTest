@@ -45,6 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeStepDuration: 10
+  playerHealth: {fileID: 0}
+  morningColor: {r: 0, g: 0.99215686, b: 0.4392157, a: 1}
+  afternoonColor: {r: 1, g: 0.36862782, b: 0, a: 1}
+  eveningColor: {r: 0.5747152, g: 0.8235294, b: 0.990566, a: 1}
+  backgroundSprite: {fileID: 0}
   OnTimeChanged:
     m_PersistentCalls:
       m_Calls: []

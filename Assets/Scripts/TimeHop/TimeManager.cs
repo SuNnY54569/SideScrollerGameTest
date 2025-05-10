@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,6 +18,15 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private float timeStepDuration = 10f;
     [SerializeField] private PlayerHealth playerHealth;
     
+    [Header("Period Colors")]
+    [SerializeField] private Color morningColor = Color.yellow;
+    [SerializeField] private Color afternoonColor = Color.cyan;
+    [SerializeField] private Color eveningColor = Color.blue;
+    private Tween colorTween;
+    
+    [Header("Target Background")]
+    [SerializeField] private SpriteRenderer backgroundSprite;
+    
     [Header("Events")]
     public UnityEvent<TimeOfDay> OnTimeChanged;
     public UnityEvent<DayOfWeek, int> OnDayChanged;
@@ -29,6 +39,15 @@ public class TimeManager : MonoBehaviour
         {
             playerHealth = FindObjectOfType<PlayerHealth>();
         }
+    }
+    
+    private void Start()
+    {
+        // Set initial color
+        if (backgroundSprite != null)
+            backgroundSprite.color = GetPeriodColor(CurrentTime);
+
+        StartBlendingToNextPeriod();
     }
 
     private void Update()
@@ -66,6 +85,53 @@ public class TimeManager : MonoBehaviour
             playerHealth.RegenerateHealth();
         }
         
+        StartBlendingToNextPeriod();
         Debug.Log($"Time changed to: {CurrentTime}, Day: {CurrentDay} (Total Days: {DayCount + 1})");
+    }
+    
+    private void StartBlendingToNextPeriod()
+    {
+        if (backgroundSprite == null) return;
+
+        Color fromColor = GetPeriodColor(CurrentTime);
+        Color toColor = GetPeriodColor(GetNextPeriod(CurrentTime));
+
+        backgroundSprite.color = fromColor; // Ensure correct start color
+
+        colorTween?.Kill();
+        colorTween = DOTween.To(
+            () => backgroundSprite.color,
+            x => backgroundSprite.color = x,
+            toColor,
+            timeStepDuration
+        ).SetEase(Ease.Linear);
+    }
+    
+    private Color GetPeriodColor(TimeOfDay period)
+    {
+        switch (period)
+        {
+            case TimeOfDay.Morning:
+                return morningColor;
+            case TimeOfDay.Afternoon:
+                return afternoonColor;
+            case TimeOfDay.Evening:
+                return eveningColor;
+            default:
+                return Color.white;
+        }
+    }
+    private TimeOfDay GetNextPeriod(TimeOfDay current)
+    {
+        switch (current)
+        {
+            case TimeOfDay.Morning:
+                return TimeOfDay.Afternoon;
+            case TimeOfDay.Afternoon:
+                return TimeOfDay.Evening;
+            case TimeOfDay.Evening:
+            default:
+                return TimeOfDay.Morning;
+        }
     }
 }

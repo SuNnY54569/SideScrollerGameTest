@@ -417,7 +417,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -5
   m_Sprite: {fileID: 21300000, guid: 2ac58b6ca21de894abca6f54a207a2e5, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.990566, b: 0.43714827, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1038,6 +1038,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3376273872023950612, guid: ae78d51c578721b428cc16a7e075614c, type: 3}
+      propertyPath: backgroundSprite
+      value: 
+      objectReference: {fileID: 341633393}
     - target: {fileID: 6895906870421876299, guid: ae78d51c578721b428cc16a7e075614c, type: 3}
       propertyPath: m_Name
       value: TimeManager

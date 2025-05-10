@@ -374,6 +374,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2230574261255436, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2230574261255436, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2230574261255436, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2230574261255436, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2230574261255436, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2230574261255436, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 258689274450471252, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
       propertyPath: inventory
       value: 
@@ -402,6 +426,30 @@ PrefabInstance:
       propertyPath: playerHandDisplay
       value: 
       objectReference: {fileID: 1363621361}
+    - target: {fileID: 3106614115675480452, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3106614115675480452, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3106614115675480452, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3106614115675480452, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3106614115675480452, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3106614115675480452, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4095822891666272466, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -434,6 +482,30 @@ PrefabInstance:
       propertyPath: playerHealth
       value: 
       objectReference: {fileID: 1363621367}
+    - target: {fileID: 6390585615568192544, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6390585615568192544, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6390585615568192544, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6390585615568192544, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6390585615568192544, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6390585615568192544, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7361223035594683365, guid: e40bebcb8fd85bd439abb06e7387d7e0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1889,6 +1961,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3376273872023950612, guid: ae78d51c578721b428cc16a7e075614c, type: 3}
+      propertyPath: backgroundSprite
+      value: 
+      objectReference: {fileID: 2141489253}
     - target: {fileID: 6895906870421876299, guid: ae78d51c578721b428cc16a7e075614c, type: 3}
       propertyPath: m_Name
       value: TimeManager

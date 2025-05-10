@@ -10,7 +10,7 @@
 - **Time Hop System Implementation** (1 hour)
 
 **Challenges:**  
-- Limited time on the first day due to personal scheduling.
+- time constraint on the first day due to personal timeline.
 - Chose to begin with the Time Hop System as it appeared to be the simplest.
 - Defined a looped gameplay structure to fit a short development cycle.
 

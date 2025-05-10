@@ -51,7 +51,7 @@ public class WorldItemPickup : MonoBehaviour
     
     private void TryPickup()
     {
-        if (isCollected) return;
+        if (isCollected || item == null) return;
         
         if (playerInventory != null)
         {
@@ -59,11 +59,14 @@ public class WorldItemPickup : MonoBehaviour
             
             if (item.itemType == InventoryItem.ItemType.Tool)
             {
-                QuickBar quickBar = playerInventory.GetComponent<QuickBar>();
-
-                if (quickBar != null && quickBar.TryAddItem(item, quantity))
+                for (int i = 0; i < 8; i++)
                 {
-                    success = true;
+                    if (playerInventory.slots[i].CanAdd(item))
+                    {
+                        playerInventory.slots[i].AddItem(item, quantity);
+                        success = true;
+                        break;
+                    }
                 }
             }
             
@@ -81,7 +84,7 @@ public class WorldItemPickup : MonoBehaviour
             }
             else
             {
-                Debug.Log("Inventory full!");
+                Debug.LogWarning($"{gameObject.name}: Inventory or QuickBar full, couldn't pick up {item.itemName}.");
             }
         }
     }
@@ -197,7 +200,13 @@ public class WorldItemPickup : MonoBehaviour
         {
             spriteRenderer.sprite = item.icon;
             spriteRenderer.color = Color.white;
-            name = $"Pickup_{item.itemName}"; 
+            name = $"Pickup_{item.itemName}";
+        }
+        else if (spriteRenderer != null)
+        {
+            spriteRenderer.sprite = null;
+            spriteRenderer.color = Color.clear;
+            name = "Pickup_Empty";
         }
     }
 }

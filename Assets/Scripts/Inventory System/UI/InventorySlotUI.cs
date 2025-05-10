@@ -69,7 +69,7 @@ public class InventorySlotUI : MonoBehaviour,
     
     public void OnBeginDrag(PointerEventData eventData)
     {
-        InventorySlot slot = isQuickBarSlot ? quickBar.quickSlots[slotIndex] : inventory.slots[slotIndex];
+        InventorySlot slot = isQuickBarSlot ? quickBar.GetSlot(slotIndex) : inventory.slots[slotIndex];
         if (slot.IsEmpty) return;
 
         draggedItem = slot.item;
@@ -112,7 +112,7 @@ public class InventorySlotUI : MonoBehaviour,
         if (draggedItem == null) return;
         
         InventorySlot destinationSlot = isQuickBarSlot
-            ? quickBar.quickSlots[slotIndex]
+            ? quickBar.GetSlot(slotIndex)
             : inventory.slots[slotIndex];
         
         InventoryItem oldItem = destinationSlot.item;
@@ -128,14 +128,15 @@ public class InventorySlotUI : MonoBehaviour,
         }
         else if (sourceQuickBar != null)
         {
-            sourceQuickBar.quickSlots[sourceSlotIndex].item = oldItem;
-            sourceQuickBar.quickSlots[sourceSlotIndex].amount = oldAmount;
+            var sourceSlot = sourceQuickBar.GetSlot(sourceSlotIndex);
+            if (sourceSlot != null)
+            {
+                sourceSlot.item = oldItem;
+                sourceSlot.amount = oldAmount;
+            }
         }
         
-        draggedItem = null;
-        draggedAmount = 0;
-        sourceInventory = null;
-        sourceQuickBar = null;
+        ClearDragData();
     }
     
     public void OnPointerClick(PointerEventData eventData)
@@ -154,7 +155,7 @@ public class InventorySlotUI : MonoBehaviour,
     
     private void DropSlotItem()
     {
-        var slot = isQuickBarSlot ? quickBar.quickSlots[slotIndex] : inventory.slots[slotIndex];
+        var slot = isQuickBarSlot ? quickBar.GetSlot(slotIndex) : inventory.slots[slotIndex];
         if (slot.IsEmpty) return;
 
         var player = FindObjectOfType<ItemUser>();
@@ -179,7 +180,11 @@ public class InventorySlotUI : MonoBehaviour,
         }
         else if (sourceQuickBar != null)
         {
-            sourceQuickBar.quickSlots[sourceSlotIndex].Clear();
+            var slot = sourceQuickBar.GetSlot(sourceSlotIndex);
+            if (slot != null)
+            {
+                slot.Clear();
+            }
         }
 
         ClearDragData();

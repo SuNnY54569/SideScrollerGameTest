@@ -36,7 +36,15 @@ public class ObjectPoolManager : MonoBehaviour
     {
         foreach (var pool in poolsConfig)
         {
-            Preload(pool.key, pool.initialSize);
+            Queue<GameObject> objectPool = new Queue<GameObject>();
+
+            for (int i = 0; i < pool.initialSize; i++)
+            {
+                GameObject obj = CreatePooledObject(pool.prefab);
+                objectPool.Enqueue(obj);
+            }
+
+            poolDictionary[pool.key] = objectPool;
             prefabDictionary[pool.key] = pool.prefab;
         }
     }
@@ -48,25 +56,6 @@ public class ObjectPoolManager : MonoBehaviour
         return obj;
     }
 
-    public void Preload(string key, int amount)
-    {
-        if (!prefabDictionary.ContainsKey(key))
-        {
-            Debug.LogWarning($"No pool exists with key '{key}'.");
-            return;
-        }
-
-        if (!poolDictionary.ContainsKey(key))
-        {
-            poolDictionary[key] = new Queue<GameObject>();
-        }
-
-        for (int i = 0; i < amount; i++)
-        {
-            GameObject obj = CreatePooledObject(prefabDictionary[key]);
-            poolDictionary[key].Enqueue(obj);
-        }
-    }
     
     public GameObject Get(string key)
     {

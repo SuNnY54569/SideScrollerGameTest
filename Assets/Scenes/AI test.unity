@@ -504,18 +504,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6527035818228427827, guid: 40caa8d25dc44c84bb374cef2f145adb, type: 3}
-      propertyPath: regenDelay
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6527035818228427827, guid: 40caa8d25dc44c84bb374cef2f145adb, type: 3}
-      propertyPath: regenTickInterval
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6527035818228427827, guid: 40caa8d25dc44c84bb374cef2f145adb, type: 3}
-      propertyPath: regenAmountPerTick
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 9111024296585118178, guid: 40caa8d25dc44c84bb374cef2f145adb, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.69

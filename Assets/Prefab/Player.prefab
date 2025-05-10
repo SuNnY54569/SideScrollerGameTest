@@ -277,8 +277,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2875cd52c32eef449816878a18ece78e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInventory: {fileID: 6424638694823071809}
   quickBarSize: 8
-  quickSlots: []
 --- !u!114 &7233396364444113374
 MonoBehaviour:
   m_ObjectHideFlags: 0

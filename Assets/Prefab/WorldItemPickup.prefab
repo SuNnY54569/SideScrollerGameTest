@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4583349788804639412}
   - component: {fileID: 851310742474101194}
   m_Layer: 0
-  m_Name: Pickup_Wand
+  m_Name: Pickup_Empty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82420065c4b21674d91479662a054c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: a589975cf7e34b94790f7c992c39d12e, type: 2}
+  item: {fileID: 0}
   quantity: 1
   promptUI: {fileID: 6304237049757584952}
   pickupAnimationDuration: 0.3
@@ -484,14 +484,14 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9470acdda3b9332468e4864ef4968d78, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.6666667, y: 0.6666667}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0

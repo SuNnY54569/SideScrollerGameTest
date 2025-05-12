@@ -139,6 +139,7 @@ public class InventorySlotUI : MonoBehaviour,
                     return;
                 }
             }
+            return;
         }
 
         SwapSlots(destinationSlot);

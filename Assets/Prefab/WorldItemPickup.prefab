@@ -54,7 +54,7 @@ MonoBehaviour:
   visual: {fileID: 7437293304902615711}
   highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   spriteRenderer: {fileID: 633325284007795762}
-  collider: {fileID: 851310742474101194}
+  itemCollider: {fileID: 851310742474101194}
 --- !u!61 &851310742474101194
 BoxCollider2D:
   m_ObjectHideFlags: 0

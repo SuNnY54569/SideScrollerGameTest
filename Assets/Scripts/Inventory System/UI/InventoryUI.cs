@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
 {
-    public static InventoryUI Instance { get; private set; }
-    
     [SerializeField] private Inventory inventory;
     [SerializeField] private QuickBar quickBar;
     [SerializeField] private GameObject slotPrefab;
@@ -26,14 +24,9 @@ public class InventoryUI : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
-        
         if (inventory == null)
         {
-            inventory = FindObjectOfType<Inventory>();
+            inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
         }
 
         if (quickBar == null)

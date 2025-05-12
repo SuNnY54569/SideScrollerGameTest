@@ -317,10 +317,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quickBar: {fileID: 5376657542477232767}
   arcanePower: {fileID: 6527035818228427827}
-  worldItemPickupPrefab: {fileID: 926622700075438583, guid: 225340c95a59af748ae304d255d03341, type: 3}
+  playerController: {fileID: 7564728222006082320}
   wandProjectilePrefab: {fileID: 1222908208336480367, guid: 181be1eb524807e448716fdc4ef5c6dc, type: 3}
   fireCooldown: 0.5
   inventory: {fileID: 6424638694823071809}
+  worldItemPickupPrefab: {fileID: 926622700075438583, guid: 225340c95a59af748ae304d255d03341, type: 3}
   minDropDistance: 0.5
   maxDropDistance: 1.5
   jumpHeight: 1

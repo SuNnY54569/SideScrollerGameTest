@@ -2347,6 +2347,7 @@ MonoBehaviour:
   chestPanel: {fileID: 4430301298825373885}
   slotPrefab: {fileID: 5011400097407766565, guid: 4429d148f37f51b44a888d6dcc8adeb2, type: 3}
   slotContainer: {fileID: 4885202314290732157}
+  inventoryUI: {fileID: 6300853942389787566}
 --- !u!1 &4525710249140178473
 GameObject:
   m_ObjectHideFlags: 0

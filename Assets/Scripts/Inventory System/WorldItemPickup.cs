@@ -12,12 +12,14 @@ public class WorldItemPickup : MonoBehaviour
     [SerializeField] private float pickupAnimationDuration = 0.3f;
     [SerializeField] private Transform visual;
     [SerializeField] private Color highlightColor = Color.yellow;
-    [SerializeField]private SpriteRenderer spriteRenderer;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private BoxCollider2D collider;
     
     private bool playerInRange = false;
     private bool isCollected;
     
     private Inventory playerInventory;
+    private QuickBar playerQuickbar;
     private Color originalColor = Color.white;
     private Transform playerTransform;
     
@@ -59,7 +61,7 @@ public class WorldItemPickup : MonoBehaviour
             
             if (item.itemType == InventoryItem.ItemType.Tool)
             {
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < playerQuickbar.QuickBarSize; i++)
                 {
                     if (playerInventory.slots[i].CanAdd(item))
                     {
@@ -96,6 +98,7 @@ public class WorldItemPickup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInventory = other.GetComponent<Inventory>();
+            playerQuickbar = other.GetComponent<QuickBar>();
             playerTransform = other.transform;
             playerInRange = true;
             Highlight(true);
@@ -112,6 +115,7 @@ public class WorldItemPickup : MonoBehaviour
         {
             playerInRange = false;
             playerInventory = null;
+            playerQuickbar = null;
             playerTransform = null;
             Highlight(false);
 
@@ -179,7 +183,6 @@ public class WorldItemPickup : MonoBehaviour
     
     private void EnsureCollider()
     {
-        BoxCollider2D collider = GetComponent<BoxCollider2D>();
         if (collider == null)
         {
             collider = gameObject.AddComponent<BoxCollider2D>();

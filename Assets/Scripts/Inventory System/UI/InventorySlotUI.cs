@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -9,6 +10,7 @@ using UnityEngine.UI;
 public class InventorySlotUI : MonoBehaviour,
     IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerClickHandler
 {
+    private static Inventory playerInventory;
     [SerializeField] private Image iconImage;
     [SerializeField] private TMP_Text countText;
     [SerializeField] private GameObject dragIconPrefab;
@@ -29,7 +31,12 @@ public class InventorySlotUI : MonoBehaviour,
     private static Inventory sourceInventory;
     private static QuickBar sourceQuickBar;
     private static int sourceSlotIndex;
-    
+
+    private void Awake()
+    {
+        playerInventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+    }
+
     public void Initialize(Inventory inv, QuickBar quick, int index, bool isQuickBar = false)
     {
         inventory = inv;
@@ -164,7 +171,7 @@ public class InventorySlotUI : MonoBehaviour,
         }
 
         slot.Clear();
-        FindObjectOfType<Inventory>().NotifyChange();
+        playerInventory.NotifyChange();
     }
     
     public static bool HasActiveDrag()
@@ -182,7 +189,7 @@ public class InventorySlotUI : MonoBehaviour,
         {
             sourceQuickBar.GetSlot(sourceSlotIndex).Clear();
         }
-        FindObjectOfType<Inventory>().NotifyChange();
+        playerInventory.NotifyChange();
         ClearDragData();
     }
     
@@ -218,5 +225,4 @@ public class InventorySlotUI : MonoBehaviour,
             }
         }
     }
-
 }

@@ -10,17 +10,6 @@ public class Inventory : MonoBehaviour
     public List<InventorySlot> slots = new();
     
     public UnityEvent OnInventoryChanged = new UnityEvent();
-    
-    public Inventory() { }
-    
-    public Inventory(int customSlotCount)
-    {
-        slots = new List<InventorySlot>();
-        for (int i = 0; i < customSlotCount; i++)
-        {
-            slots.Add(new InventorySlot());
-        }
-    }
 
     private void Awake()
     {
@@ -33,8 +22,7 @@ public class Inventory : MonoBehaviour
     public bool TryMergeOrAddItem(InventoryItem item, int quantity = 1)
     {
         int remaining = quantity;
-
-        // Step 1: Try merging into existing stacks
+        
         foreach (var slot in slots)
         {
             if (!slot.IsEmpty && slot.item == item && item.isStackable)
@@ -52,8 +40,7 @@ public class Inventory : MonoBehaviour
                     return true;
             }
         }
-
-        // Step 2: Add to empty slots if any remaining
+        
         foreach (var slot in slots)
         {
             if (slot.IsEmpty)
@@ -67,8 +54,7 @@ public class Inventory : MonoBehaviour
                     return true;
             }
         }
-
-        // Return true if at least some were added, even if not all
+        
         return remaining < quantity;
     }
     

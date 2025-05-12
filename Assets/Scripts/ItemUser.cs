@@ -10,6 +10,7 @@ public class ItemUser : MonoBehaviour
     [Header("References")]
     [SerializeField] private QuickBar quickBar;
     [SerializeField] private ArcanePower arcanePower;
+    [SerializeField] private PlayerController playerController;
     [SerializeField] private GameObject wandProjectilePrefab;
     [SerializeField] private float fireCooldown = 0.5f;
     [SerializeField] private Inventory inventory;
@@ -51,7 +52,7 @@ public class ItemUser : MonoBehaviour
         
         if (item.placeablePrefab != null)
         {
-            PlaceObject(item, slot);
+            TryPlaceObject(item, slot);
             return;
         }
 
@@ -61,8 +62,10 @@ public class ItemUser : MonoBehaviour
         }
     }
     
-    private void PlaceObject(InventoryItem item, InventorySlot slot)
+    private void TryPlaceObject(InventoryItem item, InventorySlot slot)
     {
+        if (!playerController.IsGrounded) return;
+        
         Vector3 placePosition = transform.position;
         Instantiate(item.placeablePrefab, placePosition, Quaternion.identity);
 

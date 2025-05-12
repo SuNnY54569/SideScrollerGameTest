@@ -18,9 +18,9 @@ public class CraftingMenuManager : MonoBehaviour
         {
             craftingManager = FindObjectOfType<CraftingManager>();
         }
-        
+
         if (inventory == null)
-            inventory = FindObjectOfType<Inventory>();
+            inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
 
         inventory.OnInventoryChanged.AddListener(RefreshAvailability);
     }

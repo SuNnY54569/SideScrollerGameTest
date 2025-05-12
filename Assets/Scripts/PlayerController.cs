@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     private bool isGrounded;
+    public bool IsGrounded => isGrounded;
     
     // Components
     private Rigidbody2D rb;
@@ -64,7 +65,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        if(!IsGrounded()) return;
+        if(!CheckIfGrounded()) return;
         
         float inputX = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(inputX * moveSpeed, rb.velocity.y);
@@ -90,7 +91,7 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("VerticalSpeed", rb.velocity.y);
     }
 
-    private bool IsGrounded()
+    private bool CheckIfGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
     }

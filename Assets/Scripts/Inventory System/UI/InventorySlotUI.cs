@@ -11,10 +11,10 @@ public class InventorySlotUI : MonoBehaviour,
     IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerClickHandler
 {
     private static Inventory playerInventory;
+    
     [SerializeField] private Image iconImage;
     [SerializeField] private TMP_Text countText;
     [SerializeField] private GameObject dragIconPrefab;
-    
     [SerializeField] private Image backgroundImage;
     [ColorUsage(true, true)] [SerializeField] private Color normalColor = Color.white;
     [ColorUsage(true, true)] [SerializeField] private Color selectedColor = new Color(0.7f, 0.7f, 0.7f);
@@ -85,13 +85,7 @@ public class InventorySlotUI : MonoBehaviour,
         sourceInventory = inventory;
         sourceQuickBar = quickBar;
         
-        dragIconInstance = Instantiate(dragIconPrefab, transform.root);
-        Image icon = dragIconInstance.GetComponentInChildren<Image>();
-        TMP_Text count = dragIconInstance.GetComponentInChildren<TMP_Text>();
-
-        icon.sprite = draggedItem.icon;
-        count.text = draggedItem.maxStack > 1 ? draggedAmount.ToString() : "";
-        dragIconInstance.transform.position = Input.mousePosition;
+        CreateDragIcon();
     }
     
     public void OnDrag(PointerEventData eventData)
@@ -104,42 +98,17 @@ public class InventorySlotUI : MonoBehaviour,
     
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (dragIconInstance != null)
-        {
-            Destroy(dragIconInstance);
-            dragIconInstance = null;
-        }
-
-        draggedItem = null;
-        draggedAmount = 0;
+        DestroyDragIcon();
+        ClearDragData();
     }
     
     public void OnDrop(PointerEventData eventData)
     {
         if (draggedItem == null) return;
         
-        InventorySlot destinationSlot = isQuickBarSlot
-            ? quickBar.GetSlot(slotIndex)
-            : inventory.slots[slotIndex];
+        InventorySlot destinationSlot = GetCurrentSlot();
         
-        if (destinationSlot.item == draggedItem && destinationSlot.item.isStackable)
-        {
-            int spaceLeft = destinationSlot.item.maxStack - destinationSlot.amount;
-
-            if (spaceLeft > 0)
-            {
-                int toAdd = Mathf.Min(draggedAmount, spaceLeft);
-                destinationSlot.amount += toAdd;
-                draggedAmount -= toAdd;
-
-                if (draggedAmount <= 0)
-                {
-                    DeleteDraggedItem();
-                    ClearDragData();
-                    return;
-                }
-            }
-        }
+        if (TryMergeWithDestination(destinationSlot)) return;
 
         SwapSlots(destinationSlot);
         ClearDragData();
@@ -159,47 +128,58 @@ public class InventorySlotUI : MonoBehaviour,
         
     }
     
-    private void DropSlotItem()
+    private InventorySlot GetCurrentSlot()
     {
-        var slot = isQuickBarSlot ? quickBar.GetSlot(slotIndex) : inventory.slots[slotIndex];
-        if (slot.IsEmpty) return;
-
-        var player = FindObjectOfType<ItemUser>();
-        if (player != null)
-        {
-            player.SpawnWorldItem(slot.item, slot.amount, Vector3.one * 0.5f);
-        }
-
-        slot.Clear();
-        playerInventory.NotifyChange();
+        return isQuickBarSlot ? quickBar.GetSlot(slotIndex) : inventory.slots[slotIndex];
     }
     
-    public static bool HasActiveDrag()
+    private void CreateDragIcon()
     {
-        return draggedItem != null;
+        dragIconInstance = Instantiate(dragIconPrefab, transform.root);
+        var icon = dragIconInstance.GetComponentInChildren<Image>();
+        var count = dragIconInstance.GetComponentInChildren<TMP_Text>();
+
+        icon.sprite = draggedItem.icon;
+        count.text = draggedItem.maxStack > 1 ? draggedAmount.ToString() : "";
+        dragIconInstance.transform.position = Input.mousePosition;
     }
     
-    public static void DeleteDraggedItem()
+    private void DestroyDragIcon()
     {
-        if (sourceInventory != null)
+        if (dragIconInstance != null)
+            Destroy(dragIconInstance);
+    }
+    
+    private bool TryMergeWithDestination(InventorySlot destinationSlot)
+    {
+        if (destinationSlot.item == draggedItem && draggedItem.isStackable)
         {
-            sourceInventory.slots[sourceSlotIndex].Clear();
+            int spaceLeft = draggedItem.maxStack - destinationSlot.amount;
+            if (spaceLeft > 0)
+            {
+                int toAdd = Mathf.Min(draggedAmount, spaceLeft);
+                destinationSlot.amount += toAdd;
+                UpdateSourceAfterMerge(toAdd);
+
+                if (draggedAmount <= 0)
+                {
+                    DeleteDraggedItem();
+                    ClearDragData();
+                }
+                return true;
+            }
         }
-        else if (sourceQuickBar != null)
-        {
-            sourceQuickBar.GetSlot(sourceSlotIndex).Clear();
-        }
-        playerInventory.NotifyChange();
         ClearDragData();
+        return false;
     }
     
-    private static void ClearDragData()
+    private void UpdateSourceAfterMerge(int addedAmount)
     {
-        draggedItem = null;
-        draggedAmount = 0;
-        sourceInventory = null;
-        sourceQuickBar = null;
-        sourceSlotIndex = -1;
+        draggedAmount -= addedAmount;
+        if (sourceInventory != null)
+            sourceInventory.slots[sourceSlotIndex].amount = draggedAmount;
+        else if (sourceQuickBar != null)
+            sourceQuickBar.GetSlot(sourceSlotIndex).amount = draggedAmount;
     }
     
     private void SwapSlots(InventorySlot destinationSlot)
@@ -224,5 +204,45 @@ public class InventorySlotUI : MonoBehaviour,
                 sourceSlot.amount = oldAmount;
             }
         }
+    }
+    
+    private void DropSlotItem()
+    {
+        var slot = isQuickBarSlot ? quickBar.GetSlot(slotIndex) : inventory.slots[slotIndex];
+        if (slot.IsEmpty) return;
+
+        var player = FindObjectOfType<ItemUser>();
+        if (player != null)
+        {
+            player.SpawnWorldItem(slot.item, slot.amount, Vector3.one * 0.5f);
+        }
+
+        slot.Clear();
+        playerInventory.NotifyChange();
+    }
+    
+    public static bool HasActiveDrag() => draggedItem != null;
+    
+    public static void DeleteDraggedItem()
+    {
+        if (sourceInventory != null)
+        {
+            sourceInventory.slots[sourceSlotIndex].Clear();
+        }
+        else if (sourceQuickBar != null)
+        {
+            sourceQuickBar.GetSlot(sourceSlotIndex).Clear();
+        }
+        playerInventory.NotifyChange();
+        ClearDragData();
+    }
+    
+    private static void ClearDragData()
+    {
+        draggedItem = null;
+        draggedAmount = 0;
+        sourceInventory = null;
+        sourceQuickBar = null;
+        sourceSlotIndex = -1;
     }
 }

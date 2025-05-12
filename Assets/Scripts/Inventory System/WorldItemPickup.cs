@@ -13,7 +13,7 @@ public class WorldItemPickup : MonoBehaviour
     [SerializeField] private Transform visual;
     [SerializeField] private Color highlightColor = Color.yellow;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private BoxCollider2D collider;
+    [SerializeField] private BoxCollider2D itemCollider;
     
     private bool playerInRange = false;
     private bool isCollected;
@@ -183,17 +183,17 @@ public class WorldItemPickup : MonoBehaviour
     
     private void EnsureCollider()
     {
-        if (collider == null)
+        if (itemCollider == null)
         {
-            collider = gameObject.AddComponent<BoxCollider2D>();
+            itemCollider = gameObject.AddComponent<BoxCollider2D>();
         }
         
-        collider.isTrigger = true;
+        itemCollider.isTrigger = true;
         
         if (spriteRenderer != null && spriteRenderer.sprite != null)
         {
-            collider.size = spriteRenderer.sprite.bounds.size;
-            collider.offset = spriteRenderer.sprite.bounds.center;
+            itemCollider.size = spriteRenderer.sprite.bounds.size;
+            itemCollider.offset = spriteRenderer.sprite.bounds.center;
         }
     }
     

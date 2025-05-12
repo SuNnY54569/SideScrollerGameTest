@@ -183,11 +183,6 @@ public class WorldItemPickup : MonoBehaviour
     
     private void EnsureCollider()
     {
-        if (itemCollider == null)
-        {
-            itemCollider = gameObject.AddComponent<BoxCollider2D>();
-        }
-        
         itemCollider.isTrigger = true;
         
         if (spriteRenderer != null && spriteRenderer.sprite != null)
